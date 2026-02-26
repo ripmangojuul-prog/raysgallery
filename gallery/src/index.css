@@ -1,0 +1,35 @@
+/* ========================================
+   HINTER TATTOO — Design Tokens & Globals
+   ======================================== */
+
+:root {
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Inter', -apple-system, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #0a0a14;
+  font-family: var(--font-body);
+  color: #e8e4df;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* Custom scrollbar (for any overlays) */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); }
