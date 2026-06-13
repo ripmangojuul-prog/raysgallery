@@ -7,4 +7,5 @@ export const gameState = {
   rotation: 0,
   isMoving: false,
   bobTimer: 0,
+  floatTimer: 0,
 }

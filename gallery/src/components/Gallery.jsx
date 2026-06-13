@@ -1,7 +1,6 @@
 import { Suspense, useMemo } from 'react'
 import { Environment, Stars, Sparkles } from '@react-three/drei'
-import DreamySky from './DreamySky'
-import CloudFloor from './CloudFloor'
+import CloudSky from './CloudSky'
 import ArtPieces from './ArtPieces'
 import FirstPersonController from './FirstPersonController'
 
@@ -41,22 +40,15 @@ function CorridorLights() {
 export default function Gallery() {
   return (
     <>
-      {/* Bright ambient for dreamy feel */}
-      <ambientLight intensity={0.8} color="#e0d8f0" />
-      <directionalLight position={[10, 30, 10]} intensity={0.6} color="#ffffff" />
-      <directionalLight position={[-10, 20, -40]} intensity={0.35} color="#c0d0ff" />
+      {/* Ambient fill + hemisphere for cloud lighting contrast */}
+      <ambientLight intensity={0.4} color="#ffffff" />
+      <hemisphereLight args={['#ffffff', '#3a4a6a', 0.8]} />
 
       {/* Corridor lighting for artwork illumination */}
       <CorridorLights />
 
-      {/* Soft fog that blends into the cloud floor / sky horizon */}
-      <fog attach="fog" args={['#d0ddef', 40, 180]} />
-
-      {/* Custom gradient sky sphere */}
-      <DreamySky />
-
-      {/* White cloud ground */}
-      <CloudFloor />
+      {/* Volumetric Clouds and Atmosphere */}
+      <CloudSky />
 
       {/* Background stars (upper dark region) */}
       <Stars

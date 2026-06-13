@@ -2,6 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "hinter-site",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["node_modules/vite/bin/vite.js", "--port", "5174", "--host", "localhost"],
+      "port": 5174
+    },
+    {
       "name": "gallery-dev",
       "runtimeExecutable": "node",
       "runtimeArgs": ["node_modules/vite/bin/vite.js", "--port", "5173", "--host", "localhost"],

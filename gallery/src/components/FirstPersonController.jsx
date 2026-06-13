@@ -8,9 +8,11 @@ import useStore from '../store'
 
 const SPEED = 14
 const SPRINT_SPEED = 26
-const ACCEL = 6        // lerp factor for smooth acceleration
-const BOB_SPEED = 9    // head bob frequency
-const BOB_AMOUNT = 0.04 // head bob amplitude
+const ACCEL = 6          // lerp factor for smooth acceleration
+const BOB_SPEED = 3      // head bob frequency (slower, dreamier)
+const BOB_AMOUNT = 0.015  // head bob amplitude (halved — floating not stepping)
+const FLOAT_SPEED = 0.8  // idle float frequency (~8s full cycle)
+const FLOAT_AMOUNT = 0.015 // idle float amplitude (~1.5cm)
 
 const _forward = new THREE.Vector3()
 const _right = new THREE.Vector3()
@@ -89,12 +91,21 @@ export default function FirstPersonController() {
     camera.position.x += velocity.current.x * delta
     camera.position.z += velocity.current.z * delta
 
-    // Head bob when moving
+    // Gentle idle float (always active — standing on clouds)
+    gameState.floatTimer += delta * FLOAT_SPEED
+    const floatOffset = Math.sin(gameState.floatTimer) * FLOAT_AMOUNT
+
+    // Head bob when moving + float
     if (moving) {
       gameState.bobTimer += delta * BOB_SPEED
-      camera.position.y = CORRIDOR.eyeHeight + Math.sin(gameState.bobTimer) * BOB_AMOUNT
+      camera.position.y =
+        CORRIDOR.eyeHeight + Math.sin(gameState.bobTimer) * BOB_AMOUNT + floatOffset
     } else {
-      camera.position.y = THREE.MathUtils.lerp(camera.position.y, CORRIDOR.eyeHeight, 5 * delta)
+      camera.position.y = THREE.MathUtils.lerp(
+        camera.position.y,
+        CORRIDOR.eyeHeight + floatOffset,
+        5 * delta
+      )
     }
 
     // Boundary clamp
