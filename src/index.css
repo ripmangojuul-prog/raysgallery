@@ -1193,14 +1193,15 @@ button {
   .hero-core { padding-bottom: 130px; }
   .hero-portrait {
     width: 100%;
-    -webkit-mask-image: linear-gradient(to bottom, black 35%, transparent 92%);
-    mask-image: linear-gradient(to bottom, black 35%, transparent 92%);
+    height: 72%;
+    -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 96%);
+    mask-image: linear-gradient(to bottom, black 55%, transparent 96%);
   }
   .hero-portrait img {
-    object-position: center 12%;
+    object-position: center 18%;
     -webkit-mask-image: none;
     mask-image: none;
-    opacity: 0.5;
+    opacity: 0.92;
   }
   .hero-corner { top: 84px; }
   .hero-corner--right { display: none; }
