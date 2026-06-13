@@ -1,6 +1,6 @@
-# HINTER MASKEN — Phoenix Fineline SurRealism
+# HINTER TATTOO — Phoenix Fineline SurRealism
 
-The official site for HINTER MASKEN (@hintertattoo). A dark, museum-plate,
+The official site for HINTER TATTOO (@hintertattoo). A dark, museum-plate,
 single-page site: hero → studio info → selected work → flash archive →
 artist → press → FAQ → booking.
 
@@ -18,7 +18,7 @@ npm run build    # production build → dist/
 - `src/index.css` — the entire design system (tokens at the top)
 - `public/work/` — healed-piece photos shown in Selected Work
 - `public/flash/` — flash-sheet scans shown in the Flash Archive
-- `public/artist/portrait.jpg` — hero & artist portrait
+- `public/artist/portrait.png` — hero & artist portrait
 - `site design guide.txt` — the style/token reference the design follows
 
 ## Adding new work

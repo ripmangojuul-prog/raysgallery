@@ -4,7 +4,7 @@ import { LINKS } from '../data.js'
 export default function Footer() {
   return (
     <footer className="footer">
-      <p className="footer-ghost" aria-hidden="true">HINTER MASKEN</p>
+      <p className="footer-ghost" aria-hidden="true">HINTER TATTOO</p>
 
       <div className="footer-cols">
         <div className="footer-col">
@@ -25,7 +25,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bar">
-        <span>© {new Date().getFullYear()} HINTER MASKEN</span>
+        <span>© {new Date().getFullYear()} HINTER TATTOO</span>
         <span className="footer-bar-mark" aria-hidden="true">✦</span>
         <span>Phoenix Fineline SurRealism</span>
       </div>

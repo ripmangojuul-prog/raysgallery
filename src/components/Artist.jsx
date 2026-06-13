@@ -1,6 +1,5 @@
 import React from 'react'
 import SectionHeader from './SectionHeader.jsx'
-import Glint from './Glint.jsx'
 import { LINKS } from '../data.js'
 
 export default function Artist() {
@@ -9,17 +8,17 @@ export default function Artist() {
       <SectionHeader
         numeral="III"
         title="Behind the Mask"
-        note="Rachel Catchings — the hand inside HINTER MASKEN."
+        note="Ray — the hand inside HINTER TATTOO."
       />
       <div className="artist-grid">
         <figure className="artist-portrait" data-reveal>
           <img
-            src="/artist/portrait.jpg"
-            alt="Black and white portrait of Rachel Catchings, HINTER MASKEN, lit by a single spotlight"
+            src="/artist/portrait.png"
+            alt="Black and white portrait of Ray, HINTER TATTOO, lit by a single spotlight"
             loading="lazy"
             decoding="async"
           />
-          <figcaption>HINTER MASKEN · Phoenix, AZ</figcaption>
+          <figcaption>HINTER TATTOO · Phoenix, AZ</figcaption>
         </figure>
 
         <div className="artist-text">
@@ -37,15 +36,9 @@ export default function Artist() {
           </p>
           <p data-reveal>
             The work itself draws from old engravings and 1920s illustrated novels,
-            post-punk records (the name HINTER MASKEN — <em>behind masks</em> — comes
-            from one), and the conviction that a tattoo should feel like a fragment of
+            post-punk records, and the conviction that a tattoo should feel like a fragment of
             a 17th-century etching that has begun to melt, weep, or dissolve.
           </p>
-
-          <blockquote className="artist-quote" data-reveal>
-            <Glint size={12} />
-            <p>The session is the artwork. The tattoo is what you keep.</p>
-          </blockquote>
 
           <dl className="artist-facts" data-reveal>
             <div>

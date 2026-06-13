@@ -1,4 +1,4 @@
-// ——— HINTER MASKEN · site content ———
+// ——— HINTER TATTOO · site content ———
 
 export const LINKS = {
   instagram: 'https://www.instagram.com/hintertattoo/',
@@ -61,13 +61,13 @@ export const FLASH = Object.entries(SHEET_GROUPS)
 export const PRESS = [
   {
     outlet: 'VoyageLA',
-    piece: 'Meet Rachel Catchings — Hinter Masken, Traveling Artist',
+    piece: 'Meet Ray — Hinter Tattoo, Traveling Artist',
     note: 'Interview',
     href: LINKS.voyagela,
   },
   {
     outlet: 'The Steve Wilkos Blog',
-    piece: 'Hinter Masken — In Conversation',
+    piece: 'Hinter Tattoo — In Conversation',
     note: 'Interview',
     href: LINKS.interview,
   },

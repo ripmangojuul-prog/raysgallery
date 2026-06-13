@@ -36,7 +36,7 @@ export default function Nav() {
     <>
       <nav className={`nav ${solid ? 'nav--solid' : ''} ${hidden && !open ? 'nav--hidden' : ''}`}>
         <a className="nav-logo" href="#top" onClick={() => setOpen(false)}>
-          HINTER<Glint size={8} className="nav-logo-glint" />MASKEN
+          HINTER<Glint size={8} className="nav-logo-glint" />TATTOO
         </a>
         <div className="nav-links">
           {NAV_LINKS.map((l) => (

@@ -8,7 +8,7 @@ export default function Hero() {
       <div className="hero-spot" aria-hidden="true" />
 
       <figure className="hero-portrait" aria-hidden="true">
-        <img src="/artist/portrait.jpg" alt="" fetchPriority="high" />
+        <img src="/artist/portrait.png" alt="" fetchPriority="high" />
       </figure>
 
       <p className="hero-corner hero-corner--left">Phoenix, Arizona</p>
@@ -20,7 +20,7 @@ export default function Hero() {
         </p>
         <h1 className="hero-title">
           <span className="hero-title-line">Hinter</span>
-          <span className="hero-title-line hero-title-line--indent">Masken</span>
+          <span className="hero-title-line hero-title-line--indent">Tattoo</span>
         </h1>
         <div className="hero-rule" aria-hidden="true">
           <span /><Glint size={11} /><span />

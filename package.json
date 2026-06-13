@@ -1,8 +1,8 @@
 {
-  "name": "hinter-masken-site",
+  "name": "hinter-tattoo-site",
   "private": true,
   "version": "1.0.0",
-  "description": "HINTER MASKEN — Phoenix Fineline SurRealism",
+  "description": "HINTER TATTOO — Phoenix Fineline SurRealism",
   "type": "module",
   "scripts": {
     "dev": "vite",
