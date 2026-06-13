@@ -8,7 +8,7 @@ export default function Hero() {
       <div className="hero-spot" aria-hidden="true" />
 
       <figure className="hero-portrait" aria-hidden="true">
-        <img src="/artist/portrait.png" alt="" fetchPriority="high" />
+        <img src="/artist/portrait.jpeg" alt="" fetchPriority="high" />
       </figure>
 
       <p className="hero-corner hero-corner--left">Phoenix, Arizona</p>

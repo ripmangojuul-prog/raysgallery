@@ -13,7 +13,7 @@ export default function Artist() {
       <div className="artist-grid">
         <figure className="artist-portrait" data-reveal>
           <img
-            src="/artist/portrait.png"
+            src="/artist/portrait.jpeg"
             alt="Black and white portrait of Ray, HINTER TATTOO, lit by a single spotlight"
             loading="lazy"
             decoding="async"

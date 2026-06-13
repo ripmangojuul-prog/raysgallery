@@ -18,7 +18,7 @@ npm run build    # production build → dist/
 - `src/index.css` — the entire design system (tokens at the top)
 - `public/work/` — healed-piece photos shown in Selected Work
 - `public/flash/` — flash-sheet scans shown in the Flash Archive
-- `public/artist/portrait.png` — hero & artist portrait
+- `public/artist/portrait.jpeg` — hero & artist portrait
 - `site design guide.txt` — the style/token reference the design follows
 
 ## Adding new work
