@@ -4,10 +4,12 @@ import { FAQ } from '../data.js'
 
 export default function Faq() {
   const [open, setOpen] = useState(() => new Set([0]))
-  const toggle = (i) =>
+  // Open-only: clicking a question reveals its answer and never hides it.
+  const reveal = (i) =>
     setOpen((prev) => {
+      if (prev.has(i)) return prev
       const next = new Set(prev)
-      next.has(i) ? next.delete(i) : next.add(i)
+      next.add(i)
       return next
     })
 
@@ -23,7 +25,7 @@ export default function Faq() {
                 className="faq-q"
                 aria-expanded={isOpen}
                 aria-controls={`faq-a-${i}`}
-                onClick={() => toggle(i)}
+                onClick={() => reveal(i)}
               >
                 <span>{item.q}</span>
                 <i className="faq-marker" aria-hidden="true">✦</i>
