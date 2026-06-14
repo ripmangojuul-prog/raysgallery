@@ -348,6 +348,10 @@ export const FLASH = Object.entries(SHEET_GROUPS)
 // ——— FAQ ———
 export const FAQ = [
   {
+    q: 'What is the Create tool?',
+    a: 'Create is a free tool on this site — upload a hand-drawn sketch, a photo, or any reference, and it restyles your image into the textures and execution styles I’m known for tattooing. It’s a way to explore a direction before you reach out; bring whatever you make into your text when you’re ready to book.',
+  },
+  {
     q: 'How do I book with you?',
     a: 'Text (480) 420-4319 — text only — to begin. In your message include: what you’d like tattooed, the size and placement, the first date you’re ready to begin (for scheduling), and whether you’re ready to pay a $100 deposit. The deposit is credited toward the cost of the tattoo and is required to book a session.',
   },
