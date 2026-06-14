@@ -88,35 +88,75 @@ export const PRESS = [
 // ——— FAQ ———
 export const FAQ = [
   {
-    q: 'How do I book?',
-    a: 'All booking runs through Instagram. Send a direct message to @hintertattobooking with your idea, preferred placement, approximate size, and any reference images. Custom projects begin with a consultation; flash from the archive can be claimed directly — first come, first kept.',
+    q: 'How do I book with you?',
+    a: 'Through my website, which has my booking form and all of my available flash and custom options. My email is monitored daily and is the fastest way to reach me: rscatchings@gmail.com.',
   },
   {
-    q: 'Where is the studio?',
-    a: 'A private, appointment-only studio in Phoenix, Arizona. The exact address is shared once your appointment is confirmed. Guest spots and travel dates are announced on Instagram.',
+    q: 'Once I’m given a date, how long do I have to pay the deposit?',
+    a: 'After you submit a booking request, we’ll email you a date and time that fits your schedule. You then have 48 hours to send a deposit to hold the spot, or it will be offered to someone else.',
   },
   {
-    q: 'Do you take walk-ins?',
-    a: 'No. The studio is private and every session is reserved in advance. This keeps the room quiet, unhurried, and entirely yours for the day.',
+    q: 'What form of payment do you take?',
+    a: 'Cash. I’ll accept partial payments via Zelle, Venmo, or Cash App if the session runs longer than the expected length of the tattoo.',
   },
   {
-    q: 'Is a deposit required?',
-    a: 'Yes — a non-refundable deposit secures your date and is deducted from the final price of the tattoo. Pricing depends on size, placement, and detail, and is quoted during booking. Rescheduling with fair notice moves your deposit with you.',
+    q: 'What do your tattoos cost?',
+    a: 'I charge $250 per hour, and most pieces run 2–4 hours — it all depends on complexity, placement, and budget. If that’s out of budget, please don’t haggle; but do reach out, because you’d be surprised how gracious most tattooers are.',
   },
   {
-    q: 'What do you specialize in?',
-    a: 'Fineline surrealism in black & grey — engraving-style linework, smooth wash shading, and high-contrast chrome and liquid effects. Occasionally a single muted accent color where a piece calls for it. If you want bold traditional, neon color, or script, another artist will serve you better.',
+    q: 'What if I’m on a budget?',
+    a: 'We’re happy to work with you over email to find something that captures what you want while respecting your budget.',
   },
   {
-    q: 'How old do I need to be?',
-    a: 'Eighteen or older, with a valid government-issued photo ID — no exceptions, even with parental consent.',
+    q: 'Do you charge for custom drawings?',
+    a: 'Yes. When designing a custom piece, I work with you in person to create something tailored specifically to your vision. The process often involves multiple revisions and takes real time to get every detail right. Custom drawings start at $50.',
   },
   {
-    q: 'How should I prepare for my session?',
-    a: 'Sleep well, eat a real meal, and hydrate the day before and the day of. Moisturize the area for a few days ahead, skip alcohol for 24 hours, and wear comfortable clothing that exposes the placement. Bring water, snacks, and headphones if you like.',
+    q: 'Where are you located?',
+    a: 'I’m based out of Phoenix, Arizona — that’s where the studio is, too.',
   },
   {
-    q: 'What about healing and touch-ups?',
-    a: 'You leave with written aftercare instructions — follow them and the piece will settle the way it was designed to, since every tattoo is drawn with healing and ageing in mind. If anything needs attention once fully healed, reach out through booking.',
+    q: 'How should I prepare for my appointment?',
+    a: 'Bring cash and a valid government-issued ID. Eat beforehand and be fully hydrated, and don’t drink alcohol the night before or the day of. Wear comfortable clothing that allows access to the area being tattooed. You’re welcome to bring one guest, and please don’t arrive more than 10 minutes early or 20 minutes late.',
+  },
+  {
+    q: 'How much time should I set aside?',
+    a: 'I’d highly suggest booking on a day you have nothing else going on. My palm-sized tattoos have taken anywhere from 1 hour to 10, depending on complexity, placement, and budget.',
+  },
+  {
+    q: 'How long will the tattoo take?',
+    a: 'We’ll give you our best estimate over email when discussing the piece. Time shifts with size and placement, and keep in mind it’s always just an estimate — things can run over or under.',
+  },
+  {
+    q: 'What if I’m short on time and squeezing this in?',
+    a: 'Be very thorough over email so we can time it perfectly. I can also open my hours earlier or later to accommodate — we just need that communicated to us ahead of time.',
+  },
+  {
+    q: 'How long does it take to hear back?',
+    a: 'Emails are checked every day and we’re very fast to respond. That said, please don’t send crucial information the day before your appointment and expect us to see it in time. Our phone numbers are in our email signature — please call if it’s urgent.',
+  },
+  {
+    q: 'Do you repeat flash?',
+    a: 'Sort of! I like to add variations and color, and I’m happy to work with anybody on whatever they want specifically. I like to keep each piece a little unique.',
+  },
+  {
+    q: 'Can I change my design?',
+    a: 'Of course — just give us 24 hours’ notice by email.',
+  },
+  {
+    q: 'What is your policy on being late?',
+    a: 'There’s a 20-minute grace period — I know traffic and life happen. If you think you’ll be later than that, please reach out by email and let me know.',
+  },
+  {
+    q: 'What is your cancellation policy?',
+    a: 'All deposits are non-refundable — your space is reserved once a deposit is down, and refunds would make it impossible to keep a concrete schedule. I’ll allow rescheduling if you email me at least 48 hours in advance; each request is handled case by case. Depending on the situation, another $150 deposit may be required to reschedule, which goes toward the tattoo. Deposits keep the schedule in place — it’s for your security and mine. <3',
+  },
+  {
+    q: 'What is your policy on deposits?',
+    a: 'All deposits are non-refundable. I offer one complimentary reschedule; anything beyond that will require an additional deposit.',
+  },
+  {
+    q: 'What is your policy on touch-ups?',
+    a: 'Free touch-ups within one month. Anything beyond that is treated at half price. Please email us with the subject “Touch up” — and don’t use the link in bio.',
   },
 ]

@@ -10,7 +10,7 @@ export default function Book() {
           <Glint size={9} /> Bookings open <Glint size={9} />
         </p>
         <h2 className="book-title">
-          Wear a piece<br /><em>of the dark.</em>
+          Let&apos;s make<br /><em>something yours.</em>
         </h2>
         <p className="book-sub">
           Send your idea, placement, size, and references — custom projects begin with

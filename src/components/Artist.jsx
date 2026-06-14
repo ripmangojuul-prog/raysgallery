@@ -23,21 +23,36 @@ export default function Artist() {
 
         <div className="artist-text">
           <p data-reveal>
-            Before the needle there was the piano — classical training from the age of
-            four, two decades of it, the same patience that now sits behind every
-            single-needle line. Born in the Bay Area and homeschooled, she grew up
-            treating art as a refuge, and never stopped.
+            I started with the piano, not the needle. Classical training from the age
+            of four — two decades of it — and the same patience a long étude demands is
+            exactly what now goes into a single-needle line. I grew up in the Bay Area,
+            homeschooled, and art was the quiet room I went to when I needed one. I never
+            really left it.
           </p>
           <p data-reveal>
-            The career was built alone: cosmetic-tattoo certifications in Southern
-            California, years on the floor of a Seattle walk-in shop, and finally a
-            private studio in Phoenix. No mentor, no shortcut — a portfolio carried
-            from door to door until one opened.
+            There was no shortcut and no mentor. I earned my cosmetic-tattoo
+            certifications in Southern California, spent years on the floor of a walk-in
+            shop in Seattle learning to work fast and clean in front of strangers, and
+            eventually built the private studio I keep now in Phoenix. For a long stretch
+            that meant carrying a portfolio from door to door until one of them opened —
+            and then, slowly, travelling to clients who wanted the work badly enough to
+            wait for it.
           </p>
           <p data-reveal>
-            The work itself draws from old engravings and 1920s illustrated novels,
-            post-punk records, and the conviction that a tattoo should feel like a fragment of
-            a 17th-century etching that has begun to melt, weep, or dissolve.
+            My work pulls from old engravings, 1920s illustrated novels, and the
+            post-punk records I came up on. What I&apos;m after is a tattoo that reads
+            like a fragment of a 17th-century etching that has just begun to melt, weep,
+            or dissolve — precise, but a little haunted. I would always rather make one
+            strange, quiet thing that is truly yours than something loud that could
+            belong to anyone.
+          </p>
+          <p data-reveal>
+            If you want the longer version — how this all started, the travelling years,
+            the whole winding story — VoyageLA sat down with me for it.{' '}
+            <a href={LINKS.voyagela} target="_blank" rel="noreferrer">
+              Read the full interview
+            </a>
+            .
           </p>
 
           <dl className="artist-facts" data-reveal>
