@@ -648,6 +648,38 @@ button {
 
 /* ——— Work · plates ——— */
 
+.work-cat { margin-top: clamp(70px, 12vh, 130px); }
+.work-cat:first-of-type { margin-top: clamp(40px, 7vh, 80px); }
+
+.work-cat-head {
+  margin-bottom: clamp(46px, 8vh, 90px);
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+.work-cat-no {
+  display: block;
+  margin-bottom: 10px;
+  font-family: var(--serif);
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.work-cat-name {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.7rem, 4vw, 2.7rem);
+  line-height: 1.05;
+  color: var(--ink);
+}
+.work-cat-note {
+  margin-top: 14px;
+  max-width: 520px;
+  font-size: 0.92rem;
+  color: var(--ink-2);
+}
+
 .plates {
   display: flex;
   flex-direction: column;

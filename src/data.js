@@ -19,30 +19,141 @@ export function toRoman(n) {
   return out
 }
 
-// ——— Selected work · healed pieces ———
-export const PLATES = [
+// ——— Selected work · by style ———
+// NOTE: image files in /public/work/ are seeded placeholders (copies of the
+// original three plates). Replace each file in place with the matching piece
+// from @hintertattoo — filenames are stable, so no code changes are needed.
+export const WORK_CATEGORIES = [
   {
-    src: '/work/plate-01.png',
-    title: 'The Morning Edition',
-    desc: 'A figure on a barstool, lost behind a burning broadsheet. Smoke rendered in single-needle whip shading; newsprint set in miniature.',
-    meta: 'Black & grey · inner forearm',
-    alt: 'Fineline black and grey tattoo of a woman seated on a barstool, her upper body hidden behind a burning newspaper',
+    key: 'realism',
+    name: 'Illustrative / Realism',
+    note: 'Portraiture and rendered subjects — smooth black & grey wash, single-needle detail.',
+    plates: [
+      {
+        src: '/work/realism-01.png',
+        title: 'Still Life, Healed',
+        desc: 'A rendered subject in smooth black & grey wash — soft gradients pulled with single-needle whip shading.',
+        meta: 'Black & grey · forearm',
+        alt: 'Illustrative black and grey realism tattoo by Hinter Tattoo',
+      },
+      {
+        src: '/work/realism-02.png',
+        title: 'Portrait Study',
+        desc: 'Likeness built in layered grey wash, the highlights left in untouched skin.',
+        meta: 'Black & grey · upper arm',
+        alt: 'Black and grey realism portrait tattoo by Hinter Tattoo',
+      },
+      {
+        src: '/work/realism-03.png',
+        title: 'Rendered Bloom',
+        desc: 'Botanical realism — petals modelled in tone, stems carried in fineline.',
+        meta: 'Black & grey · inner forearm',
+        alt: 'Illustrative realism floral tattoo in black and grey by Hinter Tattoo',
+      },
+      {
+        src: '/work/realism-04.png',
+        title: 'Quiet Animal',
+        desc: 'Fur and eye worked wet-into-wet in grey wash; gaze held in contrast.',
+        meta: 'Black & grey · calf',
+        alt: 'Black and grey animal realism tattoo by Hinter Tattoo',
+      },
+      {
+        src: '/work/realism-05.png',
+        title: 'Object Permanence',
+        desc: 'An everyday object rendered with engraved precision — illustration meets realism.',
+        meta: 'Black & grey · thigh',
+        alt: 'Illustrative realism object tattoo in black and grey by Hinter Tattoo',
+      },
+    ],
   },
   {
-    src: '/work/plate-02.png',
-    title: 'Heart, Pierced',
-    desc: 'An engraved foil heart run through with an arrow, its ribbon trailing toward the ankle. Crosshatch over smooth wash — etching on skin.',
-    meta: 'Black & grey · lower leg',
-    alt: 'Black and grey tattoo of a crumpled metallic heart balloon pierced by an arrow, with a trailing string',
+    key: 'chrome',
+    name: 'Chrome',
+    note: 'Liquid metal and mirrored surfaces — hard highlights, reflected light, polished black & grey.',
+    plates: [
+      {
+        src: '/work/chrome-01.png',
+        title: 'Heart, Pierced',
+        desc: 'An engraved foil heart run through with an arrow, its ribbon trailing toward the ankle. Crosshatch over smooth wash — etching on skin.',
+        meta: 'Black & grey · lower leg',
+        alt: 'Black and grey chrome tattoo of a crumpled metallic heart balloon pierced by an arrow, with a trailing string',
+      },
+      {
+        src: '/work/chrome-02.png',
+        title: 'Liquid Letterform',
+        desc: 'Type poured in chrome — each stroke a mirror, catching a window of reflected light.',
+        meta: 'Black & grey · forearm',
+        alt: 'Chrome lettering tattoo in black and grey by Hinter Tattoo',
+      },
+      {
+        src: '/work/chrome-03.png',
+        title: 'Mercury Bloom',
+        desc: 'A flower cast in liquid metal — petals bending light into hard white highlights.',
+        meta: 'Black & grey · shoulder',
+        alt: 'Chrome metallic flower tattoo in black and grey by Hinter Tattoo',
+      },
+      {
+        src: '/work/chrome-04.png',
+        title: 'Reflective Charm',
+        desc: 'A small object rendered in mirror-finish chrome, the room curving across its surface.',
+        meta: 'Black & grey · inner arm',
+        alt: 'Chrome reflective object tattoo in black and grey by Hinter Tattoo',
+      },
+      {
+        src: '/work/chrome-05.png',
+        title: 'Polished Knot',
+        desc: 'Twisted metal ribbon, every fold a fresh reflection — chrome realism on skin.',
+        meta: 'Black & grey · calf',
+        alt: 'Chrome metallic ribbon tattoo in black and grey by Hinter Tattoo',
+      },
+    ],
   },
   {
-    src: '/work/plate-03.png',
-    title: 'Hypnose',
-    desc: 'Cuffed heels descend through an op-art spiral, contained inside a five-point star. The pattern bends; the hardware shines.',
-    meta: 'Black & grey · upper arm',
-    alt: 'Black and grey tattoo of high heels with handcuffs inside a star filled with a hypnotic spiral pattern',
+    key: 'surrealism',
+    name: 'Surrealism',
+    note: 'Dreamlike compositions and impossible objects — fineline surrealism in black & grey.',
+    plates: [
+      {
+        src: '/work/surreal-01.png',
+        title: 'The Morning Edition',
+        desc: 'A figure on a barstool, lost behind a burning broadsheet. Smoke rendered in single-needle whip shading; newsprint set in miniature.',
+        meta: 'Black & grey · inner forearm',
+        alt: 'Fineline black and grey tattoo of a woman seated on a barstool, her upper body hidden behind a burning newspaper',
+      },
+      {
+        src: '/work/surreal-02.png',
+        title: 'Hypnose',
+        desc: 'Cuffed heels descend through an op-art spiral, contained inside a five-point star. The pattern bends; the hardware shines.',
+        meta: 'Black & grey · upper arm',
+        alt: 'Black and grey tattoo of high heels with handcuffs inside a star filled with a hypnotic spiral pattern',
+      },
+      {
+        src: '/work/surreal-03.png',
+        title: 'Soft Architecture',
+        desc: 'A solid form gone liquid — gravity ignored, edges melting into negative space.',
+        meta: 'Black & grey · thigh',
+        alt: 'Fineline surrealist tattoo of a melting form in black and grey by Hinter Tattoo',
+      },
+      {
+        src: '/work/surreal-04.png',
+        title: 'Borrowed Sky',
+        desc: 'An interior opening onto somewhere impossible — a window cut into the body.',
+        meta: 'Black & grey · ribs',
+        alt: 'Surrealist black and grey tattoo of an impossible scene by Hinter Tattoo',
+      },
+      {
+        src: '/work/surreal-05.png',
+        title: 'Object & Shadow',
+        desc: 'A familiar object casting a shadow it should not own — quiet fineline surrealism.',
+        meta: 'Black & grey · forearm',
+        alt: 'Fineline surrealist tattoo with an impossible shadow in black and grey by Hinter Tattoo',
+      },
+    ],
   },
 ]
+
+// Flat list (all plates, in category order) — used by the lightbox.
+export const PLATES = WORK_CATEGORIES.flatMap((c) => c.plates)
 
 // ——— Flash archive · available sheets ———
 const SHEET_GROUPS = { g01: 19, g02: 4, g04: 3, g06: 4, g07: 4, g08: 4, g09: 4, g10: 4, g11: 4, g12: 1 }
