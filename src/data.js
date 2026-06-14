@@ -312,9 +312,9 @@ export const PLATES = WORK_CATEGORIES.flatMap((c) => c.plates)
 export const REEL = [
   {
     src: '/video/reel-01.mp4',
-    kicker: 'In the chair',
-    title: 'Single needle,\nsteady hand',
-    body: 'Every line pulled by hand — no stencil shortcuts, no filler.',
+    kicker: '',
+    title: 'Single Needle',
+    body: 'Fine Line, Surrealism, Whimsical',
   },
   {
     src: '/video/reel-02.mp4',

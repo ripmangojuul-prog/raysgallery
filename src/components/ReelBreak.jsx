@@ -45,9 +45,11 @@ export default function ReelBreak({ reel, index, total }) {
       />
       <div className="reel-break-scrim" aria-hidden="true" />
       <div className="reel-break-content" data-reveal>
-        <p className="reel-break-kicker">
-          <Glint size={8} /> {reel.kicker} <Glint size={8} />
-        </p>
+        {reel.kicker && (
+          <p className="reel-break-kicker">
+            <Glint size={8} /> {reel.kicker} <Glint size={8} />
+          </p>
+        )}
         <h3 className="reel-break-title">
           {reel.title.split('\n').map((line, j) => (
             <span key={j} className="reel-break-line">{line}</span>
