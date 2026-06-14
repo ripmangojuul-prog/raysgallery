@@ -976,32 +976,21 @@ button {
   justify-content: space-between;
   gap: 20px;
   width: 100%;
-  padding: 24px 6px;
+  padding: 24px 6px 10px;
   text-align: left;
   font-family: var(--serif);
   font-weight: 400;
   font-size: clamp(1.2rem, 2.4vw, 1.55rem);
   color: var(--ink);
-  transition: color 0.3s var(--ease), padding-left 0.3s var(--ease);
 }
-.faq-q:hover { color: var(--gold-2); padding-left: 14px; }
 
 .faq-marker {
   font-style: normal;
   font-size: 0.8rem;
   color: var(--gold);
-  transition: transform 0.45s var(--ease);
 }
-.faq-item.is-open .faq-marker { transform: rotate(135deg); }
 
-.faq-a {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.5s var(--ease);
-}
-.faq-item.is-open .faq-a { grid-template-rows: 1fr; }
-.faq-a-inner { overflow: hidden; }
-.faq-a-inner p {
+.faq-a p {
   max-width: 64ch;
   padding: 0 6px 28px;
   font-size: 0.95rem;

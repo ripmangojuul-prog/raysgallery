@@ -1,43 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
 import SectionHeader from './SectionHeader.jsx'
 import { FAQ } from '../data.js'
 
 export default function Faq() {
-  const [open, setOpen] = useState(() => new Set([0]))
-  // Open-only: clicking a question reveals its answer and never hides it.
-  const reveal = (i) =>
-    setOpen((prev) => {
-      if (prev.has(i)) return prev
-      const next = new Set(prev)
-      next.add(i)
-      return next
-    })
-
   return (
     <section className="section faq" id="faq">
       <SectionHeader numeral="V" title="Questions" note="Everything clients ask before the first line." />
       <div className="faq-list">
-        {FAQ.map((item, i) => {
-          const isOpen = open.has(i)
-          return (
-            <div className={`faq-item ${isOpen ? 'is-open' : ''}`} key={i} data-reveal>
-              <button
-                className="faq-q"
-                aria-expanded={isOpen}
-                aria-controls={`faq-a-${i}`}
-                onClick={() => reveal(i)}
-              >
-                <span>{item.q}</span>
-                <i className="faq-marker" aria-hidden="true">✦</i>
-              </button>
-              <div className="faq-a" id={`faq-a-${i}`} role="region" aria-hidden={!isOpen}>
-                <div className="faq-a-inner">
-                  <p>{item.a}</p>
-                </div>
-              </div>
+        {FAQ.map((item, i) => (
+          <div className="faq-item" key={i} data-reveal>
+            <h3 className="faq-q">
+              <span>{item.q}</span>
+              <i className="faq-marker" aria-hidden="true">✦</i>
+            </h3>
+            <div className="faq-a">
+              <p>{item.a}</p>
             </div>
-          )
-        })}
+          </div>
+        ))}
       </div>
     </section>
   )
