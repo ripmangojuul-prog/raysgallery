@@ -6,13 +6,14 @@ import StudioBar from './components/StudioBar.jsx'
 import Work from './components/Work.jsx'
 import Flash from './components/Flash.jsx'
 import Artist from './components/Artist.jsx'
-import ScrollReel from './components/ScrollReel.jsx'
+import ReelBreak from './components/ReelBreak.jsx'
 import Faq from './components/Faq.jsx'
 import Book from './components/Book.jsx'
 import Create from './components/Create.jsx'
 import Footer from './components/Footer.jsx'
 import Lightbox from './components/Lightbox.jsx'
 import Ornament from './components/Ornament.jsx'
+import { REEL } from './data.js'
 
 export default function App() {
   const [lightbox, setLightbox] = useState(null) // { items, index }
@@ -54,15 +55,15 @@ export default function App() {
         <Ticker />
         <StudioBar />
         <Work onOpen={openLightbox} />
-        <ScrollReel />
-        <Ornament />
+        <ReelBreak reel={REEL[0]} index={0} total={REEL.length} />
         <Flash onOpen={openLightbox} />
         <Ornament />
         <Create />
-        <Ornament />
+        <ReelBreak reel={REEL[1]} index={1} total={REEL.length} />
         <Artist />
         <Ornament />
         <Faq />
+        <ReelBreak reel={REEL[2]} index={2} total={REEL.length} />
         <Book />
       </main>
       <Footer />

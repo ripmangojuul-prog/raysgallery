@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { TATTOO_PHOTOS } from '../data.js'
 
-// Smooth, draggable horizontal carousel of healed photographs.
+// One smooth, draggable carousel for a single curated set of photos.
 // Scroll-snap for trackpad/touch, arrow buttons for desktop, pointer-drag to fling.
-export default function PhotoCarousel({ onOpen }) {
+export default function PhotoCarousel({ numeral, name, note, photos, onOpen }) {
   const trackRef = useRef(null)
   const [atStart, setAtStart] = useState(true)
   const [atEnd, setAtEnd] = useState(false)
@@ -59,14 +58,17 @@ export default function PhotoCarousel({ onOpen }) {
   return (
     <div className="carousel" data-reveal>
       <header className="carousel-head">
-        <h3 className="carousel-name">From the Chair</h3>
-        <p className="carousel-note">Healed photographs — drag or swipe through more pieces.</p>
+        <div className="carousel-head-text">
+          {numeral && <span className="carousel-no" aria-hidden="true">{numeral}</span>}
+          <h3 className="carousel-name">{name}</h3>
+          {note && <p className="carousel-note">{note}</p>}
+        </div>
         <div className="carousel-arrows">
           <button
             className="carousel-arrow"
             onClick={() => scrollByCard(-1)}
             disabled={atStart}
-            aria-label="Previous photographs"
+            aria-label={`Previous in ${name}`}
           >
             ‹
           </button>
@@ -74,7 +76,7 @@ export default function PhotoCarousel({ onOpen }) {
             className="carousel-arrow"
             onClick={() => scrollByCard(1)}
             disabled={atEnd}
-            aria-label="More photographs"
+            aria-label={`More in ${name}`}
           >
             ›
           </button>
@@ -82,21 +84,21 @@ export default function PhotoCarousel({ onOpen }) {
       </header>
 
       <div
-        className={`carousel-track ${atStart ? '' : 'is-scrolled'} ${atEnd ? 'is-end' : ''}`}
+        className="carousel-track"
         ref={trackRef}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
       >
-        {TATTOO_PHOTOS.map((p, i) => (
+        {photos.map((p, i) => (
           <button
             className="carousel-card"
             key={p.src}
             aria-label={`Open ${p.title} in fullscreen`}
             onClick={() => {
               if (drag.current.moved) return // suppress click after a drag
-              onOpen(TATTOO_PHOTOS, i)
+              onOpen(photos, i)
             }}
           >
             <img src={p.src} alt={p.alt} loading="lazy" decoding="async" draggable="false" />
