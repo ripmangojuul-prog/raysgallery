@@ -2,7 +2,9 @@
 
 export const LINKS = {
   instagram: 'https://www.instagram.com/hintertattoo/',
-  booking: 'https://www.instagram.com/hintertattobooking/',
+  // Booking is text-only — see the first FAQ entry. Keep PHONE/SMS in sync with it.
+  phone: '(480) 420-4319',
+  sms: 'sms:+14804204319',
   altars: 'https://www.instagram.com/meetusatthealtars/',
   voyagela: 'https://voyagela.com/interview/meet-rachel-catchings-hinter-masken-traveling-artist/',
   interview: 'https://www.stevewilkos1.com/blog/hinter-masken-interview',

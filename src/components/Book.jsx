@@ -13,18 +13,18 @@ export default function Book() {
           Let&apos;s make<br /><em>something yours.</em>
         </h2>
         <p className="book-sub">
-          Send your idea, placement, size, and references — custom projects begin with
+          Text your idea, placement, size, and references — custom projects begin with
           a consultation, and flash is claimed first come, first kept.
         </p>
         <div className="book-cta">
-          <a className="btn btn--gold" href={LINKS.booking} target="_blank" rel="noreferrer">
-            DM @hintertattobooking
+          <a className="btn btn--gold" href={LINKS.sms}>
+            Text {LINKS.phone}
           </a>
           <a className="btn" href={LINKS.altars} target="_blank" rel="noreferrer">
             @meetusatthealtars
           </a>
         </div>
-        <p className="book-fine">Phoenix, Arizona · private studio · 18+ with valid ID</p>
+        <p className="book-fine">Text only · Phoenix, Arizona · private studio · 18+ with valid ID</p>
       </div>
     </section>
   )

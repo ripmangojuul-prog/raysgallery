@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="footer-cols">
         <div className="footer-col">
           <h4>Booking</h4>
-          <a href={LINKS.booking} target="_blank" rel="noreferrer">@hintertattobooking</a>
+          <a href={LINKS.sms}>Text {LINKS.phone}</a>
           <a href={LINKS.altars} target="_blank" rel="noreferrer">@meetusatthealtars</a>
         </div>
         <div className="footer-col">

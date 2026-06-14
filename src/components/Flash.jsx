@@ -16,8 +16,8 @@ export default function Flash({ onOpen }) {
         note="Pre-drawn sheets, ready for skin. Each design is tattooed once, then retired."
       />
       <p className="flash-intro" data-reveal>
-        Claiming a piece is simple — note the sheet number and send it to{' '}
-        <a href={LINKS.booking} target="_blank" rel="noreferrer">@hintertattobooking</a>.
+        Claiming a piece is simple — note the sheet number and text it to{' '}
+        <a href={LINKS.sms}>{LINKS.phone}</a> (text only).
         First come, first kept.
       </p>
       <div className="flash-grid">

@@ -15,9 +15,9 @@ export default function StudioBar() {
       <div className="studio-col" data-reveal style={{ transitionDelay: '180ms' }}>
         <h3>Booking</h3>
         <p>
-          Direct message{' '}
-          <a href={LINKS.booking} target="_blank" rel="noreferrer">@hintertattobooking</a>
-          {' '}with your idea, placement, and size — or claim a piece from the flash archive.
+          Text{' '}
+          <a href={LINKS.sms}>{LINKS.phone}</a>
+          {' '}(text only) with your idea, placement, and size — or claim a piece from the flash archive.
         </p>
       </div>
     </section>
