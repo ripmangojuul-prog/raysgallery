@@ -1,5 +1,6 @@
 import React from 'react'
 import SectionHeader from './SectionHeader.jsx'
+import PhotoCarousel from './PhotoCarousel.jsx'
 import { WORK_CATEGORIES, toRoman } from '../data.js'
 
 export default function Work({ onOpen }) {
@@ -46,6 +47,8 @@ export default function Work({ onOpen }) {
           </div>
         </div>
       ))}
+
+      <PhotoCarousel onOpen={onOpen} />
 
       <p className="work-more" data-reveal>
         The full portfolio lives on{' '}

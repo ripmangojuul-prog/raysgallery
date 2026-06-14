@@ -2,3 +2,6 @@ node_modules/
 dist/
 .DS_Store
 *.local
+
+# raw source media (working originals; web-ready copies live in public/)
+content/

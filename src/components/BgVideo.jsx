@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-const SOURCES = ['/video/bg-1.mp4', '/video/bg-2.mp4', '/video/bg-3.mp4']
+const SOURCES = ['/video/bg-3.mp4', '/video/bg-2.mp4', '/video/bg-1.mp4']
 
 export default function BgVideo() {
   const [index, setIndex] = useState(0)

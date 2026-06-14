@@ -5,9 +5,7 @@ import Glint from './Glint.jsx'
 const NAV_LINKS = [
   { href: '#work', label: 'Work' },
   { href: '#flash', label: 'Flash' },
-  { href: '#create', label: 'Create' },
   { href: '#artist', label: 'Artist' },
-  { href: '#press', label: 'Press' },
   { href: '#faq', label: 'FAQ' },
 ]
 
@@ -43,7 +41,7 @@ export default function Nav() {
           {NAV_LINKS.map((l) => (
             <a key={l.href} href={l.href}>{l.label}</a>
           ))}
-          <a className="nav-book" href="#book">Book</a>
+          <a className="nav-book" href="#create">Create</a>
         </div>
         <button
           className={`nav-burger ${open ? 'is-open' : ''}`}
@@ -57,7 +55,7 @@ export default function Nav() {
 
       <div className={`menu ${open ? 'menu--open' : ''}`} aria-hidden={!open}>
         <div className="menu-links">
-          {[...NAV_LINKS, { href: '#book', label: 'Book' }].map((l, i) => (
+          {[...NAV_LINKS, { href: '#create', label: 'Create' }].map((l, i) => (
             <a
               key={l.href}
               href={l.href}

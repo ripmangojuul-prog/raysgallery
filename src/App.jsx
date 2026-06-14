@@ -6,7 +6,7 @@ import StudioBar from './components/StudioBar.jsx'
 import Work from './components/Work.jsx'
 import Flash from './components/Flash.jsx'
 import Artist from './components/Artist.jsx'
-import Press from './components/Press.jsx'
+import ScrollReel from './components/ScrollReel.jsx'
 import Faq from './components/Faq.jsx'
 import Book from './components/Book.jsx'
 import Create from './components/Create.jsx'
@@ -54,13 +54,13 @@ export default function App() {
         <Ticker />
         <StudioBar />
         <Work onOpen={openLightbox} />
+        <ScrollReel />
         <Ornament />
         <Flash onOpen={openLightbox} />
         <Ornament />
         <Create />
         <Ornament />
         <Artist />
-        <Press />
         <Ornament />
         <Faq />
         <Book />

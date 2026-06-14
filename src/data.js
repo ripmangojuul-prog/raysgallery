@@ -155,6 +155,41 @@ export const WORK_CATEGORIES = [
 // Flat list (all plates, in category order) — used by the lightbox.
 export const PLATES = WORK_CATEGORIES.flatMap((c) => c.plates)
 
+// ——— Work carousel · healed photographs from @hintertattoo ———
+// Web-ready JPGs generated from /content/photostattoos (HEIC + PNG converted).
+export const TATTOO_PHOTOS = Array.from({ length: 18 }, (_, i) => {
+  const n = String(i + 1).padStart(2, '0')
+  return {
+    src: `/work/photos/photo-${n}.jpg`,
+    title: `Healed № ${toRoman(i + 1)}`,
+    desc: 'From the chair — a healed piece by Hinter Tattoo.',
+    meta: 'Black & grey · Phoenix, AZ',
+    alt: `Healed fineline black and grey tattoo by Hinter Tattoo (${i + 1})`,
+  }
+})
+
+// ——— Scroll reel · cinematic video panels ———
+export const REEL = [
+  {
+    src: '/video/reel-01.mp4',
+    kicker: 'In the chair',
+    title: 'Single needle,\nsteady hand',
+    body: 'Every line pulled by hand — no stencil shortcuts, no filler.',
+  },
+  {
+    src: '/video/reel-02.mp4',
+    kicker: 'Phoenix, Arizona',
+    title: 'Fineline\nsurrealism',
+    body: 'Black & grey dreamwork, engraved into skin one session at a time.',
+  },
+  {
+    src: '/video/reel-03.mp4',
+    kicker: 'The studio',
+    title: 'Private,\nby appointment',
+    body: 'A quiet room, a long table, and all the time the piece needs.',
+  },
+]
+
 // ——— Flash archive · available sheets ———
 const SHEET_GROUPS = { g01: 19, g02: 4, g04: 3, g06: 4, g07: 4, g08: 4, g09: 4, g10: 4, g11: 4, g12: 1 }
 
@@ -167,34 +202,6 @@ export const FLASH = Object.entries(SHEET_GROUPS)
     meta: 'Available flash · black & grey',
     alt: `Flash sheet ${i + 1} — fineline black and grey surrealist tattoo designs`,
   }))
-
-// ——— Press & collaborations ———
-export const PRESS = [
-  {
-    outlet: 'VoyageLA',
-    piece: 'Meet Ray — Hinter Tattoo, Traveling Artist',
-    note: 'Interview',
-    href: LINKS.voyagela,
-  },
-  {
-    outlet: 'The Steve Wilkos Blog',
-    piece: 'Hinter Tattoo — In Conversation',
-    note: 'Interview',
-    href: LINKS.interview,
-  },
-  {
-    outlet: 'Inked Magazine',
-    piece: 'Featured collaboration',
-    note: 'Collaboration',
-    href: LINKS.instagram,
-  },
-  {
-    outlet: 'Gretsch Guitars',
-    piece: 'Artist collaboration',
-    note: 'Collaboration',
-    href: LINKS.instagram,
-  },
-]
 
 // ——— FAQ ———
 export const FAQ = [
