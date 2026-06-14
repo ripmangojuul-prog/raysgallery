@@ -21,22 +21,26 @@ export default function Flash({ onOpen }) {
         First come, first kept.
       </p>
       <div className="flash-grid">
-        {visible.map((f, i) => (
-          <button
-            className="flash-item"
-            key={f.src}
-            data-reveal
-            style={{ transitionDelay: `${(i % 3) * 70}ms` }}
-            onClick={() => onOpen(FLASH, i)}
-            aria-label={`Open flash sheet ${i + 1} in fullscreen`}
-          >
-            <img src={f.src} alt={f.alt} loading="lazy" decoding="async" />
-            <span className="flash-item-tag" aria-hidden="true">
-              <em>№ {toRoman(i + 1)}</em>
-              <span>Available</span>
-            </span>
-          </button>
-        ))}
+        {visible.map((f, i) => {
+          // Items revealed by "unfold" cascade in continuous order from where
+          // the visible set left off; the initial sheets just drop in on load.
+          const step = expanded && i >= INITIAL ? i - INITIAL : i
+          return (
+            <button
+              className="flash-item"
+              key={f.src}
+              style={{ animationDelay: `${(step % 12) * 45}ms` }}
+              onClick={() => onOpen(FLASH, i)}
+              aria-label={`Open flash sheet ${i + 1} in fullscreen`}
+            >
+              <img src={f.src} alt={f.alt} loading="lazy" decoding="async" />
+              <span className="flash-item-tag" aria-hidden="true">
+                <em>№ {toRoman(i + 1)}</em>
+                <span>Available</span>
+              </span>
+            </button>
+          )
+        })}
       </div>
       {!expanded && (
         <div className="flash-unfold" data-reveal>

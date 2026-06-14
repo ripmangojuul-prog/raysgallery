@@ -762,20 +762,24 @@ button {
 }
 
 .flash-grid {
-  columns: 3 300px;
-  column-gap: 6px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
 }
 .flash-item {
   position: relative;
   display: block;
   width: 100%;
-  margin-bottom: 6px;
-  break-inside: avoid;
   background: var(--bg-2);
   border: 1px solid var(--line-2);
   padding: 8px;
   overflow: hidden;
   transition: border-color 0.4s var(--ease), transform 0.5s var(--ease);
+  animation: flash-drop 0.6s var(--ease-out) both;
+}
+@keyframes flash-drop {
+  from { opacity: 0; translate: 0 20px; }
+  to { opacity: 1; translate: 0 0; }
 }
 .flash-item:hover { border-color: var(--ink-3); transform: translateY(-3px); }
 .flash-item img {
@@ -1216,7 +1220,7 @@ button {
   .section-head { flex-wrap: wrap; }
   .section-note { margin-left: 0; max-width: none; text-align: left; }
 
-  .flash-grid { columns: 2 150px; }
+  .flash-grid { grid-template-columns: repeat(2, 1fr); }
 
   .artist-facts { grid-template-columns: 1fr; }
 
