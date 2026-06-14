@@ -24,6 +24,31 @@ const loadImage = (src) =>
     img.src = src
   })
 
+// Pick the closest Gemini-allowed aspect ratio to the source photo so the
+// result keeps the original framing (and doesn't crop out subjects).
+const ALLOWED_RATIOS = [
+  ['1:1', 1], ['2:3', 2 / 3], ['3:2', 3 / 2], ['3:4', 3 / 4], ['4:3', 4 / 3],
+  ['4:5', 4 / 5], ['5:4', 5 / 4], ['9:16', 9 / 16], ['16:9', 16 / 9], ['21:9', 21 / 9],
+]
+const nearestAspectRatio = async (dataUrl) => {
+  try {
+    const img = await loadImage(dataUrl)
+    const r = img.width / img.height
+    let best = '1:1'
+    let diff = Infinity
+    for (const [label, value] of ALLOWED_RATIOS) {
+      const d = Math.abs(value - r)
+      if (d < diff) {
+        diff = d
+        best = label
+      }
+    }
+    return best
+  } catch {
+    return '1:1'
+  }
+}
+
 const reencode = async (inline, maxDimension, quality, outMime) => {
   const image = await loadImage(`data:${inline.mimeType || 'image/jpeg'};base64,${inline.data}`)
   const longest = Math.max(image.width, image.height)
@@ -91,12 +116,12 @@ const callApi = async (payload) => {
 }
 
 // imageDataUrl: data: URL of the source photo. maskDataUrl: optional cover-up mask.
-export async function generateStyled(imageDataUrl, styleId, { mode = 'standard', maskDataUrl = null, aspectRatio = '1:1', imageSize = '1K' } = {}) {
+export async function generateStyled(imageDataUrl, styleId, { mode = 'standard', maskDataUrl = null, aspectRatio = null, imageSize = '4K' } = {}) {
   const payload = {
     type: 'generation',
     styleId,
     mode,
-    aspectRatio,
+    aspectRatio: aspectRatio || (await nearestAspectRatio(imageDataUrl)),
     imageSize,
     image: { mimeType: getMime(imageDataUrl), data: cleanB64(imageDataUrl) },
   }
@@ -106,10 +131,11 @@ export async function generateStyled(imageDataUrl, styleId, { mode = 'standard',
   return callApi(payload)
 }
 
-export async function generateStencil(imageDataUrl, aspectRatio = '1:1') {
+export async function generateStencil(imageDataUrl, aspectRatio = null) {
   return callApi({
     type: 'stencil',
-    aspectRatio,
+    aspectRatio: aspectRatio || (await nearestAspectRatio(imageDataUrl)),
+    imageSize: '4K',
     image: { mimeType: getMime(imageDataUrl), data: cleanB64(imageDataUrl) },
   })
 }
