@@ -5,6 +5,7 @@ import Glint from './Glint.jsx'
 const NAV_LINKS = [
   { href: '#work', label: 'Work' },
   { href: '#flash', label: 'Flash' },
+  { href: '#create', label: 'Create' },
   { href: '#artist', label: 'Artist' },
   { href: '#press', label: 'Press' },
   { href: '#faq', label: 'FAQ' },

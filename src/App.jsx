@@ -9,6 +9,7 @@ import Artist from './components/Artist.jsx'
 import Press from './components/Press.jsx'
 import Faq from './components/Faq.jsx'
 import Book from './components/Book.jsx'
+import Create from './components/Create.jsx'
 import Footer from './components/Footer.jsx'
 import Lightbox from './components/Lightbox.jsx'
 import Ornament from './components/Ornament.jsx'
@@ -55,6 +56,8 @@ export default function App() {
         <Work onOpen={openLightbox} />
         <Ornament />
         <Flash onOpen={openLightbox} />
+        <Ornament />
+        <Create />
         <Ornament />
         <Artist />
         <Press />
