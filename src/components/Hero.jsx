@@ -1,15 +1,13 @@
 import React from 'react'
 import Glint from './Glint.jsx'
+import BgVideo from './BgVideo.jsx'
 
 export default function Hero() {
   return (
     <header className="hero" id="top">
+      <BgVideo />
       <div className="hero-texture" aria-hidden="true" />
       <div className="hero-spot" aria-hidden="true" />
-
-      <figure className="hero-portrait" aria-hidden="true">
-        <img src="/artist/portrait.jpeg" alt="" fetchPriority="high" />
-      </figure>
 
       <p className="hero-corner hero-corner--left">Phoenix, Arizona</p>
       <p className="hero-corner hero-corner--right">By appointment only</p>
