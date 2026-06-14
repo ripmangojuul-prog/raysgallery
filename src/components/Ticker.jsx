@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ITEMS = [
-  'Phoenix Fineline SurRealism',
+  'Fineline SurRealism',
   'Black & Grey',
   'By appointment only',
   '@hintertattoo',
@@ -23,7 +23,7 @@ function Run(props) {
 
 export default function Ticker() {
   return (
-    <div className="ticker" aria-label="Phoenix Fineline SurRealism — by appointment only">
+    <div className="ticker" aria-label="Fineline SurRealism — by appointment only">
       <div className="ticker-track">
         <Run />
         <Run aria-hidden="true" />

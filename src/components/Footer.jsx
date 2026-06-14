@@ -27,7 +27,7 @@ export default function Footer() {
       <div className="footer-bar">
         <span>© {new Date().getFullYear()} HINTER TATTOO</span>
         <span className="footer-bar-mark" aria-hidden="true">✦</span>
-        <span>Phoenix Fineline SurRealism</span>
+        <span>Fineline SurRealism</span>
       </div>
     </footer>
   )

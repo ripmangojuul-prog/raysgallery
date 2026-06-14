@@ -16,7 +16,7 @@ export default function Hero() {
 
       <div className="hero-core">
         <p className="hero-kicker">
-          <Glint size={9} /> Phoenix Fineline SurRealism <Glint size={9} />
+          <Glint size={9} /> Fineline SurRealism <Glint size={9} />
         </p>
         <h1 className="hero-title">
           <span className="hero-title-line">Hinter</span>
