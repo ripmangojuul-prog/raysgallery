@@ -347,27 +347,11 @@ export const FLASH = Object.entries(SHEET_GROUPS)
 export const FAQ = [
   {
     q: 'How do I book with you?',
-    a: 'Through my website, which has my booking form and all of my available flash and custom options. My email is monitored daily and is the fastest way to reach me: rscatchings@gmail.com.',
-  },
-  {
-    q: 'Once I’m given a date, how long do I have to pay the deposit?',
-    a: 'After you submit a booking request, we’ll email you a date and time that fits your schedule. You then have 48 hours to send a deposit to hold the spot, or it will be offered to someone else.',
+    a: 'Text (480) 420-4319 — text only — to begin. In your message include: what you’d like tattooed, the size and placement, the first date you’re ready to begin (for scheduling), and whether you’re ready to pay a $100 deposit. The deposit is credited toward the cost of the tattoo and is required to book a session.',
   },
   {
     q: 'What form of payment do you take?',
-    a: 'Cash. I’ll accept partial payments via Zelle, Venmo, or Cash App if the session runs longer than the expected length of the tattoo.',
-  },
-  {
-    q: 'What do your tattoos cost?',
-    a: 'I charge $250 per hour, and most pieces run 2–4 hours — it all depends on complexity, placement, and budget. If that’s out of budget, please don’t haggle; but do reach out, because you’d be surprised how gracious most tattooers are.',
-  },
-  {
-    q: 'What if I’m on a budget?',
-    a: 'We’re happy to work with you over email to find something that captures what you want while respecting your budget.',
-  },
-  {
-    q: 'Do you charge for custom drawings?',
-    a: 'Yes. When designing a custom piece, I work with you in person to create something tailored specifically to your vision. The process often involves multiple revisions and takes real time to get every detail right. Custom drawings start at $50.',
+    a: 'Cash, Zelle, Cash App, Venmo, Bitcoin, or Ethereum.',
   },
   {
     q: 'Where are you located?',
@@ -383,15 +367,7 @@ export const FAQ = [
   },
   {
     q: 'How long will the tattoo take?',
-    a: 'We’ll give you our best estimate over email when discussing the piece. Time shifts with size and placement, and keep in mind it’s always just an estimate — things can run over or under.',
-  },
-  {
-    q: 'What if I’m short on time and squeezing this in?',
-    a: 'Be very thorough over email so we can time it perfectly. I can also open my hours earlier or later to accommodate — we just need that communicated to us ahead of time.',
-  },
-  {
-    q: 'How long does it take to hear back?',
-    a: 'Emails are checked every day and we’re very fast to respond. That said, please don’t send crucial information the day before your appointment and expect us to see it in time. Our phone numbers are in our email signature — please call if it’s urgent.',
+    a: 'We’ll give you our best estimate over text when discussing the piece. Time shifts with size and placement, and keep in mind it’s always just an estimate — things can run over or under.',
   },
   {
     q: 'Do you repeat flash?',
@@ -399,15 +375,11 @@ export const FAQ = [
   },
   {
     q: 'Can I change my design?',
-    a: 'Of course — just give us 24 hours’ notice by email.',
-  },
-  {
-    q: 'What is your policy on being late?',
-    a: 'There’s a 20-minute grace period — I know traffic and life happen. If you think you’ll be later than that, please reach out by email and let me know.',
+    a: 'Of course — just give us 24 hours’ notice.',
   },
   {
     q: 'What is your cancellation policy?',
-    a: 'All deposits are non-refundable — your space is reserved once a deposit is down, and refunds would make it impossible to keep a concrete schedule. I’ll allow rescheduling if you email me at least 48 hours in advance; each request is handled case by case. Depending on the situation, another $150 deposit may be required to reschedule, which goes toward the tattoo. Deposits keep the schedule in place — it’s for your security and mine. <3',
+    a: 'All deposits are non-refundable — your space is reserved once a deposit is down, and refunds would make it impossible to keep a concrete schedule. I’ll allow rescheduling if you text me at least 48 hours in advance; each request is handled case by case. Depending on the situation, another deposit may be required to reschedule, which goes toward the tattoo. Deposits keep the schedule in place — it’s for your security and mine. <3',
   },
   {
     q: 'What is your policy on deposits?',
@@ -415,6 +387,6 @@ export const FAQ = [
   },
   {
     q: 'What is your policy on touch-ups?',
-    a: 'Free touch-ups within one month. Anything beyond that is treated at half price. Please email us with the subject “Touch up” — and don’t use the link in bio.',
+    a: 'Free touch-ups within one month. Anything beyond that is treated at half price. Please reach out with the subject “Touch up.”',
   },
 ]
