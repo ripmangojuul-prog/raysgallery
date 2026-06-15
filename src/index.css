@@ -778,6 +778,40 @@ button {
 .plate-view:hover { color: var(--gold-2); border-color: var(--gold); }
 .plate-view span { color: var(--gold); }
 
+/* ——— Work · circular showcase (WebGL) ——— */
+.work-showcase {
+  max-width: var(--max);
+  margin: clamp(40px, 7vh, 80px) auto 0;
+  padding: 0 var(--gutter);
+}
+.work-showcase-stage {
+  position: relative;
+  height: clamp(380px, 56vh, 600px);
+  /* faint vitrine glow behind the ring */
+  background: radial-gradient(120% 80% at 50% 42%, rgba(196, 168, 130, 0.06), transparent 70%);
+}
+/* fade the ring's left/right edges into the page so cards don't hard-clip */
+.work-showcase-stage::before,
+.work-showcase-stage::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: clamp(36px, 9vw, 130px);
+  pointer-events: none;
+}
+.work-showcase-stage::before { left: 0; background: linear-gradient(90deg, var(--bg), transparent); }
+.work-showcase-stage::after { right: 0; background: linear-gradient(270deg, var(--bg), transparent); }
+.work-showcase-hint {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
 .work-more {
   margin-top: clamp(60px, 10vh, 110px);
   text-align: center;
