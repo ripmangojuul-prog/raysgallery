@@ -1,0 +1,22 @@
+# secrets & auth
+.env
+.env.local
+*.key.json
+service-account*.json
+google-token.json
+# persisted Google Voice browser sessions (cookies) — NEVER commit.
+# NOTE: keep these patterns comment-free; trailing inline comments are NOT
+# supported in .gitignore and silently break the pattern.
+.gv-auth/
+.gv-chrome/
+.gv-*/
+
+# runtime
+node_modules/
+dist/
+*.log
+.DS_Store
+
+# playwright
+playwright-report/
+test-results/

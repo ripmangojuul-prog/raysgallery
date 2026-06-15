@@ -1,0 +1,31 @@
+{
+  "name": "hinter-booking-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Ray / HINTER MASKEN SMS booking + intake agent. Receives texts on a Google Voice number, replies in Ray's voice, checks the real Google Calendar, locks in a date, collects the $150 Zelle deposit, and on confirmation sends the Google invite.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "login-gv": "tsx scripts/login-google-voice.ts",
+    "get-token": "tsx scripts/get-calendar-token.ts",
+    "chat": "tsx scripts/test-conversation.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "firebase-admin": "^12.7.0",
+    "googleapis": "^144.0.0",
+    "openai": "^6.42.0",
+    "playwright": "^1.49.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
