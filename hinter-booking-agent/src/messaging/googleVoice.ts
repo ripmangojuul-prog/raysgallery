@@ -13,7 +13,7 @@
 import { type BrowserContext, type Page } from 'playwright';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { type MessagingAdapter, type InboundMessage, normalizePhone } from './adapter.js';
+import { type MessagingAdapter, type InboundMessage, type InboundImage, normalizePhone } from './adapter.js';
 import { launchGVContext } from '../lib/browser.js';
 import { log } from '../lib/util.js';
 
@@ -67,6 +67,10 @@ export class GoogleVoiceAdapter implements MessagingAdapter {
     }
     this.ctx = await launchGVContext(this.authDir, (process.env.GV_HEADLESS ?? 'true') !== 'false');
     this.page = this.ctx.pages()[0] ?? (await this.ctx.newPage());
+    // tsx/esbuild wraps named functions with a __name() helper that doesn't exist
+    // inside page.evaluate. Define it in every document (string form dodges
+    // transpilation) so evaluate bodies below can use named local helpers.
+    await this.page.addInitScript('globalThis.__name = globalThis.__name || function (n) { return n; };');
     await this.page.goto(GV_URL, { waitUntil: 'domcontentloaded' });
 
     if (/accounts\.google\.com/.test(this.page.url())) {
@@ -110,34 +114,147 @@ export class GoogleVoiceAdapter implements MessagingAdapter {
         await this.page.waitForSelector(SELECTORS.messageItem, { timeout: 8000 }).catch(() => {});
         await this.page.waitForTimeout(1200);
 
-        // Recent bubble texts in chronological order.
-        const texts: string[] = await this.page.evaluate((sel) => {
-          const items = Array.from(document.querySelectorAll(sel)).slice(-14);
-          return items
-            .map((it) => {
-              const ann = it.querySelector('gv-annotation');
-              let t = (ann?.textContent || it.textContent || '').replace(/\s+/g, ' ').trim();
-              t = t.replace(/\s*\d{1,2}:\d{2}\s*(AM|PM)\b.*$/i, '').trim(); // strip trailing timestamp
-              return t;
-            })
-            .filter(Boolean);
-        }, SELECTORS.messageItem);
+        // Nudge any lazy-loaded attachment into view, then wait for in-bubble
+        // images to finish decoding so naturalWidth is real before we read them.
+        await this.page.evaluate(() => {
+          const items = document.querySelectorAll('gv-message-item');
+          (items[items.length - 1] as HTMLElement | undefined)?.scrollIntoView({ block: 'end' });
+        });
+        await this.page
+          .waitForFunction(
+            () => {
+              const imgs = Array.from(
+                document.querySelectorAll('gv-message-item gv-image-attachment img, gv-message-item img.image')
+              ) as HTMLImageElement[];
+              return imgs.every((im) => im.complete && im.naturalWidth > 0);
+            },
+            { timeout: 4000 }
+          )
+          .catch(() => {}); // slow decode just means we may miss it this poll, not crash
 
-        // Walk back from the newest, collecting bubbles we haven't seen. Our own
-        // sent replies are in `seen`, so we stop at them — leaving exactly the
-        // client's new inbound burst (handles several fast texts in a row).
-        const fresh: string[] = [];
-        for (let i = texts.length - 1; i >= 0 && fresh.length < 6; i--) {
-          const key = `${from}|${normalizeMsg(texts[i])}`;
-          if (this.seen.has(key)) break;
-          fresh.unshift(texts[i]);
+        // Recent bubbles in chronological order: caption text + any image
+        // attachments. GV serves MMS images from a same-origin /a/i/<id> proxy
+        // (verified: type=basic, content-type image/jpeg), so we capture the
+        // stable <id> for dedup and the src for byte extraction below.
+        const bubbles = (await this.page.evaluate((sel) => {
+          const clean = (s: string) =>
+            (s || '')
+              .replace(/\s+/g, ' ')
+              .trim()
+              .replace(/\s*\d{1,2}:\d{2}\s*(AM|PM)\b.*$/i, '') // strip trailing timestamp
+              .trim();
+          const items = Array.from(document.querySelectorAll(sel));
+          return items.slice(-14).map((it) => {
+            const imgEls = (
+              Array.from(it.querySelectorAll('gv-image-attachment img, img.image')) as HTMLImageElement[]
+            ).filter((im) => {
+              const src = im.currentSrc || im.src || '';
+              return (im.naturalWidth || im.width) >= 40 && /\/a\/i\//.test(src);
+            });
+            const images = imgEls.map((im) => {
+              const src = im.currentSrc || im.src || '';
+              const m = src.match(/\/a\/i\/([A-Za-z0-9]+)/);
+              return { id: m ? m[1] : src.slice(-32), src };
+            });
+            const ann = it.querySelector('gv-annotation');
+            // For image bubbles, trust only the annotation as caption (the bubble's
+            // own textContent can pick up attachment chrome); else keep prior logic.
+            const text = clean(ann?.textContent || (images.length ? '' : it.textContent) || '');
+            return { text, images };
+          });
+        }, SELECTORS.messageItem)) as { text: string; images: { id: string; src: string }[] }[];
+
+        // Walk newest->oldest, collecting bubbles we haven't seen. Our own sent
+        // replies are in `seen`, so we stop at them — leaving the client's new
+        // inbound burst. Image bubbles get an image-fingerprinted key so empty-
+        // caption photos don't all collapse onto one key, and so they never
+        // collide with send()'s text-only boundary markers.
+        const keyOf = (b: { text: string; images: { id: string }[] }) => {
+          const t = normalizeMsg(b.text);
+          return b.images.length ? `${from}|${t}|${b.images.map((im) => im.id).join('+')}` : `${from}|${t}`;
+        };
+        const fresh: { text: string; images: { id: string; src: string }[] }[] = [];
+        for (let i = bubbles.length - 1; i >= 0 && fresh.length < 6; i--) {
+          const b = bubbles[i];
+          if (!b.text && !b.images.length) continue; // skip empty spacer/system bubbles
+          if (this.seen.has(keyOf(b))) break;
+          fresh.unshift(b);
         }
         if (!fresh.length) continue;
-        for (const t of fresh) this.seen.add(`${from}|${normalizeMsg(t)}`);
+        for (const b of fresh) this.seen.add(keyOf(b));
 
-        // Combine the burst into one turn so the agent sees all of it at once.
-        const combined = fresh.join('\n');
-        messages.push({ id: `${from}|${normalizeMsg(combined)}`.slice(0, 240), from, text: combined, ts: Date.now() });
+        // Pull image bytes for the fresh burst — a same-origin fetch inside the
+        // authenticated page (FileReader avoids the base64 call-stack trap; any
+        // non-jpeg/png is normalized to jpeg via an untainted same-origin canvas).
+        // Isolated + best-effort: a capture failure must never drop the text.
+        const freshSrcs = fresh.flatMap((b) => b.images.map((im) => im.src)).slice(0, 4);
+        let images: InboundImage[] = [];
+        if (freshSrcs.length) {
+          try {
+            const raw = (await this.page.evaluate(async (srcs: string[]) => {
+              const readAsDataUrl = (blob: Blob) =>
+                new Promise<string>((resolve, reject) => {
+                  const fr = new FileReader();
+                  fr.onload = () => resolve(String(fr.result));
+                  fr.onerror = () => reject(fr.error);
+                  fr.readAsDataURL(blob);
+                });
+              const toJpeg = async (blob: Blob) => {
+                const bmp = await createImageBitmap(blob);
+                const MAX = 1600; // bound the long edge -> bounds payload bytes
+                const scale = Math.min(1, MAX / Math.max(bmp.width, bmp.height));
+                const c = document.createElement('canvas');
+                c.width = Math.max(1, Math.round(bmp.width * scale));
+                c.height = Math.max(1, Math.round(bmp.height * scale));
+                c.getContext('2d')!.drawImage(bmp, 0, 0, c.width, c.height);
+                bmp.close?.();
+                return await new Promise<Blob>((r) => c.toBlob((bb) => r(bb!), 'image/jpeg', 0.85));
+              };
+              const out: ({ mimeType: string; dataBase64: string } | null)[] = [];
+              for (const src of srcs) {
+                try {
+                  const res = await fetch(src, { credentials: 'include' });
+                  if (!res.ok) {
+                    out.push(null);
+                    continue;
+                  }
+                  let blob = await res.blob();
+                  if (blob.type !== 'image/jpeg' && blob.type !== 'image/png') blob = await toJpeg(blob);
+                  const dataUrl = await readAsDataUrl(blob);
+                  const mt = (dataUrl.match(/^data:([^;]+);base64,/) || [])[1];
+                  const b64 = dataUrl.split(',')[1];
+                  out.push(mt && b64 ? { mimeType: mt, dataBase64: b64 } : null);
+                } catch {
+                  out.push(null);
+                }
+              }
+              return out;
+            }, freshSrcs)) as ({ mimeType: string; dataBase64: string } | null)[];
+            // Hard guard: only emit types xAI actually accepts (jpeg/png).
+            images = raw.filter(
+              (x): x is InboundImage => !!x && (x.mimeType === 'image/jpeg' || x.mimeType === 'image/png')
+            );
+          } catch (err) {
+            log('warn', 'GV image extraction failed (text still delivered)', err);
+          }
+        }
+
+        // Combine the burst into one turn. If photos were present but none could
+        // be captured, say so explicitly so the agent can ask the client to
+        // resend rather than silently ignoring the reference image.
+        const captions = fresh.map((b) => b.text).filter(Boolean);
+        let combined = captions.join('\n');
+        if (freshSrcs.length && !images.length) {
+          combined = (combined ? combined + '\n' : '') + '(the client sent a photo that could not be loaded)';
+        }
+        const idFp = images.length ? '|' + fresh.flatMap((b) => b.images.map((im) => im.id)).join('+') : '';
+        messages.push({
+          id: `${from}|${normalizeMsg(combined)}${idFp}`.slice(0, 240),
+          from,
+          text: combined,
+          images: images.length ? images : undefined,
+          ts: Date.now(),
+        });
       }
 
       if (messages.length) this.persistSeen();
