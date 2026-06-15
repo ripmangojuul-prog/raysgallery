@@ -26,7 +26,6 @@ export function buildClientMemory(
   if (p.idea) known.push(`Idea: ${p.idea}`);
   if (p.placement) known.push(`Placement: ${p.placement}`);
   if (p.size) known.push(`Size: ${p.size}`);
-  if (p.budget) known.push(`Budget: ${p.budget}`);
   if (p.experience) known.push(`Tattoo experience: ${p.experience}`);
   if (p.references?.length) known.push(`References they've sent: ${p.references.join('; ')}`);
   if (p.email) known.push(`Email: ${p.email}`);

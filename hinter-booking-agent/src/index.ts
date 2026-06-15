@@ -150,7 +150,6 @@ async function handleConfirm(phone: string, ackOwner: (m: string) => Promise<voi
       startISO: appointment.start,
       endISO: appointment.end,
       instagram: profile.instagram,
-      quoteOrNotes: profile.budget,
       locationOverride: locationOverride?.address,
     });
     await setAppointment(state, { eventId: res.eventId, location: locationOverride?.address || BUSINESS.studio.address });

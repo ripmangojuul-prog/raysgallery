@@ -121,8 +121,8 @@ received it"). The bot does everything else.
 
 ## The booking flow
 
-1. Client texts → bot greets and gathers idea, placement, size, budget, availability,
-   local/traveling (the same things Ray asks).
+1. Client texts → bot greets and gathers idea, placement, size, availability,
+   local/traveling (the same things Ray asks). It never asks about budget.
 2. Bot talks the piece in Ray's voice, reads any reference images against the Style Bible,
    and gives an honest time + price ballpark ($250/hr, etc.).
 3. Bot calls `check_availability` (real calendar) and offers specific open dates.

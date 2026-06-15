@@ -46,7 +46,6 @@ export async function executeTool(
         idea: input.idea,
         placement: input.placement,
         size: input.size,
-        budget: input.budget,
         experience: input.experience,
         local: input.local,
         notes: input.notes,
@@ -96,7 +95,7 @@ export async function executeTool(
           startISO: input.start_iso,
           endISO: input.end_iso,
           instagram: input.instagram ?? state.profile.instagram,
-          quoteOrNotes: input.quote_or_notes ?? state.profile.budget,
+          quoteOrNotes: input.quote_or_notes,
           locationOverride: ctx.locationOverride?.address,
         });
         await mergeProfile(state, { name: input.client_name, email: input.client_email });

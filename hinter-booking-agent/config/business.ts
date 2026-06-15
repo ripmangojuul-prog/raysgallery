@@ -93,7 +93,7 @@ export const BUSINESS = {
       'the area being tattooed. You can bring one guest. Please don’t arrive more than 10 ' +
       'minutes early or 20 minutes late.',
     timeAdvice:
-      'Book on a day you have nothing else going on — palm-sized pieces have run anywhere from 1 to 10 hours depending on detail, placement, and budget.',
+      'Book on a day you have nothing else going on — palm-sized pieces have run anywhere from 1 to 10 hours depending on detail and placement.',
   },
 
   // ── Google Calendar event conventions (matched to real bookings) ─────────

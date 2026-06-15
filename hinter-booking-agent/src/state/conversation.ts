@@ -7,7 +7,7 @@
 /** Coarse funnel stage — useful for analytics + nudging, not hard gating. */
 export type Stage =
   | 'new' // first contact
-  | 'intake' // gathering idea/size/placement/budget/availability
+  | 'intake' // gathering idea/size/placement/availability
   | 'discussing' // talking the piece, quoting
   | 'scheduling' // picking a date/time
   | 'awaiting_deposit' // date agreed, waiting for Zelle
@@ -23,7 +23,6 @@ export interface ClientProfile {
   idea?: string;
   placement?: string;
   size?: string;
-  budget?: string;
   experience?: string;
   local?: boolean;
   references?: string[]; // notes/urls about reference images they've sent

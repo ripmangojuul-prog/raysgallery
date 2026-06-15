@@ -29,7 +29,7 @@ export const TOOLS: OpenAI.Chat.Completions.ChatCompletionTool[] = [
       name: 'save_client_note',
       description:
         'Quietly persist details gathered about the client so nothing is lost between texts. ' +
-        'Call this whenever you learn something new (their idea, size, placement, budget, name, email, IG, references).',
+        'Call this whenever you learn something new (their idea, size, placement, name, email, IG, references).',
       parameters: {
         type: 'object',
         properties: {
@@ -39,7 +39,6 @@ export const TOOLS: OpenAI.Chat.Completions.ChatCompletionTool[] = [
           idea: { type: 'string', description: 'The tattoo concept/description.' },
           placement: { type: 'string' },
           size: { type: 'string' },
-          budget: { type: 'string' },
           experience: { type: 'string', description: 'Prior tattoo experience, if mentioned.' },
           local: { type: 'boolean', description: 'True if local, false if traveling in.' },
           reference_note: { type: 'string', description: 'Note about a reference image they sent (what it shows).' },

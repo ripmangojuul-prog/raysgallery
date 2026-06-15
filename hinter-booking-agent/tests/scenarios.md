@@ -6,8 +6,9 @@ sounds like a bot.)
 
 ### 1. New lead — full intake
 **You:** "Hey! I love your work, I want to get something on my forearm"
-**Good:** Warm hi, then pulls the thread on idea, size, placement, budget/limit, timing,
+**Good:** Warm hi, then pulls the thread on idea, size, placement, timing,
 local-or-traveling — conversationally, not as a checklist. Asks for reference pics.
+Never asks about budget or what they can spend.
 
 ### 2. In-sector idea + reference image
 **You:** `/img ./somewhere/cathedral.jpg` then "something like this on my calf"
@@ -22,7 +23,7 @@ offers an in-sector reinterpretation; does NOT fake excitement; hands off to Ray
 ### 4. Pricing question
 **You:** "how much would a medium piece run me?"
 **Good:** Transparent — $250/hr, most pieces 2–5 hrs, day rate $1500, "better quote once I
-mock it up." Offers budget flexibility kindly.
+mock it up." Answers the pricing question but never turns it around to ask their budget.
 
 ### 5. Scheduling — must use the calendar
 **You:** "can I come in next week?"
