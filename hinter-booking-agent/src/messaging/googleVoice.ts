@@ -49,6 +49,9 @@ export class GoogleVoiceAdapter implements MessagingAdapter {
   private authDir: string;
   private seen = new Set<string>();
   private seenFile: string;
+  // Set when the window/context closes or crashes so the next poll relaunches
+  // instead of hanging or looping forever against a dead browser.
+  private browserDead = false;
 
   constructor() {
     this.authDir = process.env.GV_AUTH_DIR || './.gv-chrome';
@@ -65,18 +68,56 @@ export class GoogleVoiceAdapter implements MessagingAdapter {
         /* ignore corrupt seen file */
       }
     }
+    await this.launchBrowser();
+  }
+
+  /** (Re)launch the persistent browser + page and confirm we're logged in. */
+  private async launchBrowser(): Promise<void> {
+    // Best-effort tear down any prior (possibly half-dead) context first.
+    try {
+      await Promise.race([this.ctx?.close(), new Promise((r) => setTimeout(r, 4000))]);
+    } catch {
+      /* ignore */
+    }
     this.ctx = await launchGVContext(this.authDir, (process.env.GV_HEADLESS ?? 'true') !== 'false');
     this.page = this.ctx.pages()[0] ?? (await this.ctx.newPage());
+    // Bound every navigation/action so a wedged browser can't hang the loop.
+    this.page.setDefaultNavigationTimeout(30000);
+    this.page.setDefaultTimeout(15000);
     // tsx/esbuild wraps named functions with a __name() helper that doesn't exist
     // inside page.evaluate. Define it in every document (string form dodges
     // transpilation) so evaluate bodies below can use named local helpers.
     await this.page.addInitScript('globalThis.__name = globalThis.__name || function (n) { return n; };');
+    // If the user closes the window or Chrome crashes, flag it so ensureAlive()
+    // relaunches on the next cycle.
+    this.browserDead = false;
+    this.ctx.on('close', () => {
+      this.browserDead = true;
+    });
+    this.page.on('close', () => {
+      this.browserDead = true;
+    });
     await this.page.goto(GV_URL, { waitUntil: 'domcontentloaded' });
 
     if (/accounts\.google\.com/.test(this.page.url())) {
       throw new Error('Not logged in to Google Voice. Run `npm run login-gv` first.');
     }
     log('info', 'Google Voice adapter ready.');
+  }
+
+  /** Relaunch the browser if it has closed/crashed since the last cycle. */
+  private async ensureAlive(): Promise<void> {
+    if (!this.browserDead && this.page && !this.page.isClosed()) return;
+    log('warn', 'Google Voice browser was closed/crashed — relaunching…');
+    await this.launchBrowser();
+  }
+
+  /** True if an error means the browser/page/context is gone (vs. a transient DOM hiccup). */
+  private isDeadError(err: unknown): boolean {
+    const m = String((err as { message?: string })?.message ?? err);
+    return /Target (page, context or browser|closed)|browser has been closed|context or browser has been closed|has been closed|crashed|disconnected|Browser closed/i.test(
+      m
+    );
   }
 
   private persistSeen() {
@@ -91,16 +132,23 @@ export class GoogleVoiceAdapter implements MessagingAdapter {
 
   async poll(): Promise<InboundMessage[]> {
     try {
+      await this.ensureAlive();
       await this.page.goto(GV_URL, { waitUntil: 'domcontentloaded' });
       await this.page.waitForSelector(SELECTORS.threadItem, { timeout: 10000 }).catch(() => {});
 
-      // 1) Collect phones of UNREAD threads (their row text contains "Unread").
+      // 1) Collect phones of UNREAD threads. GV marks an unread thread with the
+      // word "Unread" — but that signal now lives in the row's aria-label, not
+      // always in its visible textContent. Check BOTH (the row's own aria-label
+      // only says "unread" when the thread genuinely is), or a GV DOM shift
+      // silently hides every inbound text and the agent goes mute.
       const unreadPhones: string[] = await this.page.$$eval(SELECTORS.threadItem, (items) => {
         const out: string[] = [];
         for (const it of items) {
           const text = (it.textContent || '').replace(/\s+/g, ' ');
-          if (!/unread/i.test(text)) continue;
-          const m = text.match(/\(?\d{3}\)?[\s.\-]*\d{3}[\s.\-]*\d{4}/);
+          const aria = (it.getAttribute('aria-label') || '').replace(/\s+/g, ' ');
+          const hay = `${text} ${aria}`;
+          if (!/unread/i.test(hay)) continue;
+          const m = hay.match(/\(?\d{3}\)?[\s.\-]*\d{3}[\s.\-]*\d{4}/);
           if (m) out.push(m[0]);
         }
         return out;
@@ -260,14 +308,20 @@ export class GoogleVoiceAdapter implements MessagingAdapter {
       if (messages.length) this.persistSeen();
       return messages;
     } catch (err) {
-      log('error', 'GV poll failed', err);
+      if (this.isDeadError(err)) {
+        this.browserDead = true;
+        log('warn', 'GV poll: browser is gone — will relaunch next cycle', String(err).slice(0, 120));
+      } else {
+        log('error', 'GV poll failed', err);
+      }
       return [];
     }
   }
 
-  async send(to: string, text: string): Promise<void> {
+  async send(to: string, text: string, retrying = false): Promise<void> {
     const e164 = normalizePhone(to);
     try {
+      await this.ensureAlive();
       // Open (or create) the thread for this number, then type + send.
       await this.page.goto(this.threadUrl(e164), { waitUntil: 'domcontentloaded' });
       await this.page.waitForTimeout(1500);
@@ -298,6 +352,14 @@ export class GoogleVoiceAdapter implements MessagingAdapter {
       this.persistSeen();
       log('info', `Sent to ${e164}: ${text.slice(0, 60)}...`);
     } catch (err) {
+      // If the browser died mid-send, relaunch and retry the send once so the
+      // reply isn't silently lost.
+      if (this.isDeadError(err) && !retrying) {
+        this.browserDead = true;
+        log('warn', `GV send to ${e164}: browser gone — relaunching and retrying once`);
+        await this.ensureAlive();
+        return this.send(to, text, true);
+      }
       log('error', `GV send to ${e164} failed`, err);
       throw err;
     }
