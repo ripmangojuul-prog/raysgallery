@@ -136,20 +136,26 @@ export class GoogleVoiceAdapter implements MessagingAdapter {
       await this.page.goto(GV_URL, { waitUntil: 'domcontentloaded' });
       await this.page.waitForSelector(SELECTORS.threadItem, { timeout: 10000 }).catch(() => {});
 
-      // 1) Collect phones of UNREAD threads. GV marks an unread thread with the
-      // word "Unread" — but that signal now lives in the row's aria-label, not
-      // always in its visible textContent. Check BOTH (the row's own aria-label
-      // only says "unread" when the thread genuinely is), or a GV DOM shift
-      // silently hides every inbound text and the agent goes mute.
+      // 1) Collect phones of threads that NEED A REPLY. The old "Unread" gate was
+      // the bug behind silent muting: GV doesn't reliably expose "Unread" as row
+      // text/aria in headless Chromium, AND a human glancing at the thread clears
+      // it — so genuinely new inbound texts were never opened. Instead: a thread
+      // needs attention unless the AGENT clearly spoke last. GV prefixes its own
+      // last message in the row preview with "You:". So open every recent thread
+      // whose preview is NOT "You:"-last (or that is still flagged unread); the
+      // seen.json walk below then dedups so we never re-reply to a handled burst.
       const unreadPhones: string[] = await this.page.$$eval(SELECTORS.threadItem, (items) => {
         const out: string[] = [];
-        for (const it of items) {
+        for (const it of items.slice(0, 10)) {
           const text = (it.textContent || '').replace(/\s+/g, ' ');
           const aria = (it.getAttribute('aria-label') || '').replace(/\s+/g, ' ');
           const hay = `${text} ${aria}`;
-          if (!/unread/i.test(hay)) continue;
           const m = hay.match(/\(?\d{3}\)?[\s.\-]*\d{3}[\s.\-]*\d{4}/);
-          if (m) out.push(m[0]);
+          if (!m) continue;
+          const agentSpokeLast = /\bYou:\s/i.test(hay);
+          const unread = /unread/i.test(hay);
+          if (agentSpokeLast && !unread) continue; // handled — nothing new here
+          out.push(m[0]);
         }
         return out;
       });
