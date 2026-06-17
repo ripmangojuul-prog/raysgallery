@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Tool dispatcher. Maps a Grok tool call to a real action, mutates the live
+// Tool dispatcher. Maps a Claude tool call to a real action, mutates the live
 // conversation state, and returns a string result the model reads back.
 // ─────────────────────────────────────────────────────────────────────────────
 

@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// The brain. Runs one conversation turn: builds context, calls Grok (xAI's
-// OpenAI-compatible Chat Completions API) with tools + vision, runs the tool
-// loop, and returns the reply (emoji-stripped, split into human-feeling bubbles).
+// The brain. Runs one conversation turn: builds context, calls Claude (Anthropic
+// Messages API) with tools + vision, runs the tool loop, and returns the reply
+// (emoji-stripped, split into human-feeling bubbles).
 // ─────────────────────────────────────────────────────────────────────────────
 
-import type OpenAI from 'openai';
-import { xai, XAI_MODEL } from '../lib/xai.js';
+import type Anthropic from '@anthropic-ai/sdk';
+import { anthropic, ANTHROPIC_MODEL, MAX_TOKENS } from '../lib/anthropic.js';
 import { buildSystemPrompt } from './systemPrompt.js';
 import { TOOLS } from '../tools/definitions.js';
 import { executeTool } from '../tools/index.js';
@@ -19,13 +19,9 @@ import { BUSINESS } from '../../config/business.js';
 import { stripEmoji, splitIntoBubbles, sanitizeToolResult, withRetry, log } from '../lib/util.js';
 
 const TZ = BUSINESS.studio.timezone;
-// Grok 4.2 is a reasoning model: hidden reasoning tokens count against this cap,
-// so keep it generous or the short visible reply could get truncated. Tune with
-// XAI_MAX_TOKENS.
-const MAX_COMPLETION_TOKENS = Number(process.env.XAI_MAX_TOKENS) || 8000;
 const MAX_TOOL_ITERATIONS = 6;
-// xAI vision accepts jpg/jpeg and png only.
-const VALID_IMAGE_TYPES = ['image/jpeg', 'image/png'];
+// Claude vision accepts jpeg, png, webp, and (non-animated) gif.
+const VALID_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 
 function todayParts() {
   const now = new Date();
@@ -68,36 +64,46 @@ export async function runAgentTurn(opts: {
     log('warn', 'calendar-memory lookup failed', e);
   }
 
-  // Two system messages: the big stable prompt FIRST (identical every turn, so
-  // xAI's automatic prompt caching hits this prefix), then the volatile per-client
-  // memory brief so it stays fresh without busting that cache.
-  const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
+  // Two system blocks: the big stable prompt FIRST (identical every turn) with a
+  // cache breakpoint so Anthropic's prompt caching reuses this prefix, then the
+  // volatile per-client memory brief AFTER the breakpoint so it stays fresh
+  // without busting the cache.
+  const system: Anthropic.TextBlockParam[] = [
     {
-      role: 'system',
-      content: buildSystemPrompt({ todayHuman, todayISO, locationOverride: ctx.locationOverride ?? null }),
+      type: 'text',
+      text: buildSystemPrompt({ todayHuman, todayISO, locationOverride: ctx.locationOverride ?? null }),
+      cache_control: { type: 'ephemeral' },
     },
     {
-      role: 'system',
-      content: buildClientMemory(state, appts, calEvents),
+      type: 'text',
+      text: buildClientMemory(state, appts, calEvents),
     },
   ];
 
-  // Prior turns from the rolling window (stored as plain text).
-  for (const m of state.messages) {
-    messages.push({ role: m.role, content: m.content });
-  }
+  // Prior turns from the rolling window (stored as plain text). The Messages API
+  // requires the conversation to start with a user turn, so drop any leading
+  // assistant message left at the head of a sliced window.
+  const messages: Anthropic.MessageParam[] = state.messages.map((m) => ({
+    role: m.role,
+    content: m.content,
+  }));
+  while (messages.length && messages[0].role === 'assistant') messages.shift();
 
-  // The new inbound turn. With images, content must be a parts array (images
-  // first, then text); without, a plain string keeps the request simple.
+  // The new inbound turn. With images, content is a blocks array (images first,
+  // then text); without, a plain string keeps the request simple.
   const validImages = (images ?? []).filter((img) => {
     if (VALID_IMAGE_TYPES.includes(img.mimeType)) return true;
     log('warn', `skipping unsupported image type ${img.mimeType}`);
     return false;
   });
   if (validImages.length) {
-    const parts: OpenAI.Chat.Completions.ChatCompletionContentPart[] = validImages.map((img) => ({
-      type: 'image_url',
-      image_url: { url: `data:${img.mimeType};base64,${img.dataBase64}`, detail: 'high' },
+    const parts: Anthropic.ContentBlockParam[] = validImages.map((img) => ({
+      type: 'image',
+      source: {
+        type: 'base64',
+        media_type: img.mimeType as 'image/jpeg' | 'image/png' | 'image/webp' | 'image/gif',
+        data: img.dataBase64,
+      },
     }));
     parts.push({ type: 'text', text: inboundText || '(the client sent an image with no caption)' });
     messages.push({ role: 'user', content: parts });
@@ -109,45 +115,51 @@ export async function runAgentTurn(opts: {
   for (let iter = 0; iter < MAX_TOOL_ITERATIONS; iter++) {
     const resp = await withRetry(
       () =>
-        xai.chat.completions.create(
-          {
-            model: XAI_MODEL,
-            max_completion_tokens: MAX_COMPLETION_TOKENS,
-            messages,
-            tools: TOOLS,
-          },
-          // Pin this conversation to one cache key to maximize prompt-cache hits.
-          { headers: { 'x-grok-conv-id': state.phone } }
-        ),
-      { label: 'chat.completions.create' }
+        anthropic.messages.create({
+          model: ANTHROPIC_MODEL,
+          max_tokens: MAX_TOKENS,
+          system,
+          messages,
+          tools: TOOLS,
+        }),
+      { label: 'messages.create' }
     );
 
-    const msg = resp.choices[0]?.message;
-    const toolCalls = msg?.tool_calls ?? [];
+    const toolUses = resp.content.filter(
+      (b): b is Anthropic.ToolUseBlock => b.type === 'tool_use'
+    );
 
-    if (toolCalls.length > 0) {
-      // Echo the assistant's tool-call turn back, then answer each tool call.
-      // (Rebuilt cleanly — drop the non-standard reasoning_content field.)
-      messages.push({ role: 'assistant', content: msg?.content ?? '', tool_calls: toolCalls });
-      for (const tc of toolCalls) {
-        if (tc.type !== 'function') continue;
+    if (resp.stop_reason === 'tool_use' && toolUses.length > 0) {
+      // Echo the assistant's tool-use turn back verbatim, then answer each call.
+      messages.push({ role: 'assistant', content: resp.content });
+      const toolResults: Anthropic.ToolResultBlockParam[] = [];
+      for (const tu of toolUses) {
         try {
-          const args = tc.function.arguments ? JSON.parse(tc.function.arguments) : {};
-          const result = await executeTool(tc.function.name, args, ctx);
-          messages.push({ role: 'tool', tool_call_id: tc.id, content: sanitizeToolResult(result) });
+          const result = await executeTool(tu.name, tu.input, ctx);
+          toolResults.push({
+            type: 'tool_result',
+            tool_use_id: tu.id,
+            content: sanitizeToolResult(result),
+          });
         } catch (err: any) {
-          messages.push({
-            role: 'tool',
-            tool_call_id: tc.id,
+          toolResults.push({
+            type: 'tool_result',
+            tool_use_id: tu.id,
+            is_error: true,
             content: `Tool failed: ${err?.message ?? String(err)}`,
           });
         }
       }
+      messages.push({ role: 'user', content: toolResults });
       continue; // let the model react to tool results
     }
 
-    // Final assistant turn — gather text.
-    finalText = (msg?.content ?? '').trim();
+    // Final assistant turn — gather the visible text.
+    finalText = resp.content
+      .filter((b): b is Anthropic.TextBlock => b.type === 'text')
+      .map((b) => b.text)
+      .join('\n')
+      .trim();
     break;
   }
 

@@ -188,7 +188,7 @@ async function handleConfirm(phone: string, ackOwner: (m: string) => Promise<voi
 
 // ── Main loop ────────────────────────────────────────────────────────────────
 async function main() {
-  log('info', `HINTER booking agent starting. DRY_RUN=${DRY_RUN} model=${process.env.XAI_MODEL || 'grok-4.20-0309-reasoning'}`);
+  log('info', `HINTER booking agent starting. DRY_RUN=${DRY_RUN} model=${process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-6'}`);
   if (!OWNER_PHONE) log('warn', 'OWNER_PHONE not set — handoffs and deposit confirmations will not reach you.');
 
   adapter = new GoogleVoiceAdapter();

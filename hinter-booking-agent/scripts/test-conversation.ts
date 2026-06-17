@@ -7,7 +7,7 @@
 //   /state        dump the current conversation state
 //   /quit         exit
 //
-// Needs XAI_API_KEY always; check_availability/create_booking also need the
+// Needs ANTHROPIC_API_KEY always; check_availability/create_booking also need the
 // Google Calendar token; record/booking writes need Firestore creds.
 import 'dotenv/config';
 import readline from 'node:readline';

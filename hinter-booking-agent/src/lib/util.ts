@@ -61,8 +61,8 @@ export async function withRetry<T>(
       const status = err?.status ?? err?.response?.status;
       const retryable = status === 429 || (status >= 500 && status < 600);
       if (!retryable || attempt === maxRetries) throw err;
-      // Header shape differs across SDKs: Anthropic err.response.headers[...],
-      // OpenAI v4 err.headers[...], OpenAI v6 err.headers.get(...).
+      // Anthropic SDK errors expose headers as a Headers object (err.headers.get(...));
+      // the bracket fallback keeps this robust to plain-object header shapes too.
       const hdrs = err?.response?.headers ?? err?.headers;
       const retryAfterRaw = typeof hdrs?.get === 'function' ? hdrs.get('retry-after') : hdrs?.['retry-after'];
       const retryAfter = Number(retryAfterRaw);

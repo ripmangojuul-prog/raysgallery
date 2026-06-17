@@ -25,7 +25,7 @@ and shares nothing with the site.
    │  src/index.ts  (poll loop + owner commands: CONFIRM / RESUME / TRAVEL)
    │      │
    │      ▼
-   │  src/brain/agent.ts ── Grok 4.2 reasoning (grok-4.20-0309-reasoning) ── tool-use loop + vision + prompt cache
+   │  src/brain/agent.ts ── Claude (Anthropic, claude-sonnet-4-6) ── tool-use loop + vision + prompt cache
    │      │        ▲ system prompt = Ray's voice (few-shot from real texts) + Style Bible gate
    │      ▼        │
    │  src/tools/*  │  check_availability · create_booking · record_deposit_claim
@@ -60,7 +60,7 @@ browser (Playwright). That works, but it is the one piece that needs babysitting
 
 ### Prerequisites
 - **Node 20+**
-- **xAI API key** (the brain — Grok)
+- **Anthropic API key** (the brain — Claude)
 - **Firebase / GCP project** with Firestore enabled + a service-account JSON
 - **Google Cloud OAuth client** (Desktop) for Calendar, and access to `rscatchings@gmail.com`
 - The **Google Voice account** that owns (480) 420-4319, plus Ray's personal cell number
@@ -75,7 +75,7 @@ npx playwright install chromium
 ### 2. Configure
 ```bash
 cp .env.example .env
-# fill in XAI_API_KEY, Firestore creds, Calendar OAuth client, OWNER_PHONE
+# fill in ANTHROPIC_API_KEY, Firestore creds, Calendar OAuth client, OWNER_PHONE
 ```
 
 ### 3. Google Calendar token (one-time)
@@ -145,14 +145,15 @@ The bot **never** tells a client they're booked before the deposit is confirmed.
   and new messages that arrive while a thread is in handoff.
 
 ## Cost
-Low volume → a few dollars/month. Grok 4.2 reasoning ($1.25/$2.50 per 1M in/out, with
-xAI's automatic prompt caching at $0.20/1M cached) is pennies per conversation; set
-`XAI_MODEL=grok-4.3` for xAI's newest flagship if you ever want it. Firestore and Calendar
+Low volume → a few dollars/month. Claude Sonnet 4.6, with Anthropic's prompt caching
+on the stable system prefix, is pennies per conversation; set
+`ANTHROPIC_MODEL=claude-opus-4-8` for max capability or `claude-haiku-4-5-20251001`
+for the cheapest/fastest if you ever want it. Firestore and Calendar
 are effectively free at this scale. The only "host"
 needed is a machine that stays on to run the poller (your Windows box works; or a tiny VM).
 
 ## Roadmap: v0.1 → production
-- **v0.1 (this):** Google Voice via Playwright, Grok brain, real calendar, Zelle + 1-tap
+- **v0.1 (this):** Google Voice via Playwright, Claude brain, real calendar, Zelle + 1-tap
   confirm, vision, handoff.
 - **Harden GV:** image/MMS extraction for vision, better unread detection, auto-relogin.
 - **Reliability win (recommended later):** implement `MessagingAdapter` for Twilio/Telnyx —
