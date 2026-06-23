@@ -29,6 +29,16 @@ export default function Footer() {
         <span className="footer-bar-mark" aria-hidden="true">✦</span>
         <span>Fineline SurRealism</span>
       </div>
+
+      <p className="footer-credit">
+        Photo, video and website built by{' '}
+        <a
+          className="footer-credit-link"
+          href="mailto:ripmangojuul@gmail.com?subject=Business%20Inquiry"
+        >
+          Pete
+        </a>
+      </p>
     </footer>
   )
 }
