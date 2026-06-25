@@ -206,13 +206,6 @@ export const WORK_CATEGORIES = [
         alt: "Black and grey realism tattoo of armored archangel Saint Michael with spear standing over a fallen demon on a forearm",
       },
       {
-        src: "/work/photos/ig-201.jpg",
-        title: "The Last Supper",
-        desc: "Skeletal Last Supper reinterpretation",
-        meta: "Black & grey · inner forearm",
-        alt: "Black and grey inner-forearm tattoo reimagining the Last Supper with skeletons seated around Christ at a table",
-      },
-      {
         src: "/work/photos/ig-234.jpg",
         title: "Sanctuary",
         desc: "Angel embracing a figure within a Gothic cathedral window with script",

@@ -103,8 +103,12 @@ export const BUSINESS = {
     titleTemplate: '{name}- {design}',
     // Description holds phone + IG + any quote/notes, like Ray does by hand.
     // e.g. "480-223-7839 ig: bkaydubs | $650-750 quote"
-    // Popup reminders (minutes before): 1 week + 1 day, matching her pattern.
-    reminderMinutes: [10080, 1440],
+    // Confirmed appointments are colored purple ("Grape") so they stand out on
+    // the calendar. Google Calendar colorId 3 = Grape.
+    colorId: '3',
+    // Popup reminders (minutes before): 5 days + 1 day + 30 minutes, matching
+    // how Ray sets confirmed appointments (see the booking screenshot).
+    reminderMinutes: [7200, 1440, 30],
   },
 
   // ── Reply behavior ───────────────────────────────────────────────────────

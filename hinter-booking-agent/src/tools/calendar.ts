@@ -174,6 +174,8 @@ export async function createBooking(opts: {
       summary,
       description,
       location: opts.locationOverride || b.studio.address,
+      // Confirmed appointments are purple ("Grape") so they pop on the calendar.
+      colorId: b.calendarEvent.colorId,
       start: { dateTime: opts.startISO, timeZone: TZ },
       end: { dateTime: opts.endISO, timeZone: TZ },
       attendees: [{ email: opts.clientEmail }],

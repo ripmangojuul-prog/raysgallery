@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0A0908" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <title>HINTER TATTOO — Phoenix Fineline SurRealism</title>
+  <meta name="description" content="HINTER TATTOO. Fineline surrealism in black & grey — a private, appointment-only tattoo studio in Phoenix, Arizona." />
+  <meta property="og:title" content="HINTER TATTOO — Phoenix Fineline SurRealism" />
+  <meta property="og:description" content="Engravings on skin. Black & grey fineline surrealism — private studio, Phoenix, AZ. By appointment only." />
+  <meta property="og:image" content="assets/hero-still.jpg" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip" href="#work">Skip to the work</a>
+
+  <!-- ===== Film layer: grain + vignette + hero particle canvas ===== -->
+  <div class="film" aria-hidden="true">
+    <svg class="grain" xmlns="http://www.w3.org/2000/svg">
+      <filter id="grainf">
+        <feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="2" stitchTiles="stitch" />
+        <feColorMatrix type="saturate" values="0" />
+      </filter>
+      <rect width="100%" height="100%" filter="url(#grainf)" />
+    </svg>
+    <div class="vignette"></div>
+  </div>
+
+  <!-- duotone SVG filter (shared grade for all media) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="grade">
+      <feColorMatrix type="matrix" values="0.96 0 0 0 0  0 0.95 0 0 0  0 0 0.93 0 0  0 0 0 1 0" />
+    </filter>
+  </svg>
+
+  <!-- ===== Preloader ===== -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__mark" id="preMark" aria-hidden="true">RAY&rsquo;S <span class="glint">&#10022;</span> GALLERY</div>
+    <div class="preloader__line"></div>
+  </div>
+
+  <!-- ===== Nav ===== -->
+  <header class="nav" id="nav">
+    <a class="nav__logo" href="#top">RAY&rsquo;S <span class="glint">&#10022;</span> GALLERY</a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#flash">Flash</a>
+      <a href="#artist">Artist</a>
+      <a href="#faq">FAQ</a>
+      <a href="#create" class="nav__create">Create</a>
+    </nav>
+    <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <div class="menu" id="menu" aria-hidden="true">
+    <a href="#work">Work</a>
+    <a href="#flash">Flash</a>
+    <a href="#create">Create</a>
+    <a href="#artist">Artist</a>
+    <a href="#faq">FAQ</a>
+    <a href="#book" class="menu__book">Book</a>
+  </div>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="top">
+      <div class="hero__media">
+        <video class="hero__video" id="heroVideo" autoplay muted loop playsinline poster="assets/hero-loop-poster.jpg">
+          <source src="assets/hero-loop.mp4" type="video/mp4" />
+        </video>
+        <img class="hero__fallback" src="assets/hero-still.jpg" alt="" aria-hidden="true" />
+        <canvas class="hero__particles" id="particles" aria-hidden="true"></canvas>
+        <div class="hero__scrim"></div>
+      </div>
+
+      <div class="hero__corners">
+        <span class="hero__corner hero__corner--tl">Phoenix, Arizona</span>
+        <span class="hero__corner hero__corner--tr">By appointment only</span>
+      </div>
+
+      <div class="hero__inner">
+        <p class="hero__kicker"><span class="glint">&#10022;</span> <em>Fineline SurRealism</em> <span class="glint">&#10022;</span></p>
+        <h1 class="hero__title"><span class="reveal-mask">Hinter</span><span class="reveal-mask">Tattoo</span></h1>
+        <p class="hero__sub">Engravings on skin. Black &amp; grey surrealism in single-needle line &mdash; classical technique, uneasy dreams.</p>
+        <div class="hero__cta">
+          <a class="btn btn--accent" href="#book">Request an appointment</a>
+          <a class="btn" href="#work">View the work</a>
+        </div>
+      </div>
+
+      <a class="hero__scroll" href="#studio" aria-label="Scroll">
+        <span>Scroll</span>
+        <span class="hero__scroll-line"></span>
+      </a>
+    </section>
+
+    <!-- ===== Ticker ===== -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track" id="tickerTrack"></div>
+    </div>
+
+    <!-- ===== Studio bar ===== -->
+    <section class="studio" id="studio">
+      <img class="studio__bg" src="assets/section-portal.jpg" alt="" aria-hidden="true" />
+      <div class="studio__grid">
+        <div class="studio__col reveal">
+          <h3 class="label">The Studio</h3>
+          <p>A private room in Phoenix, Arizona. One artist, one client, one piece at a time &mdash; the address is shared when your session is confirmed.</p>
+        </div>
+        <div class="studio__col reveal">
+          <h3 class="label">Hours</h3>
+          <p>By appointment only. No walk-ins. Guest spots and travel dates are announced on Instagram.</p>
+        </div>
+        <div class="studio__col reveal">
+          <h3 class="label">Booking</h3>
+          <p>Text <a href="sms:+14804204319">(480) 420-4319</a> (text only) with your idea, placement, and size &mdash; or claim a piece from the flash archive.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Selected work (I) ===== -->
+    <section class="work" id="work">
+      <video class="work__ambient" id="ambient" muted loop playsinline poster="assets/ambient-loop-poster.jpg" aria-hidden="true">
+        <source src="assets/ambient-loop.mp4" type="video/mp4" />
+      </video>
+      <header class="section-head">
+        <p class="section-head__num">I</p>
+        <h2 class="section-head__title">Selected Work</h2>
+        <p class="section-head__sub">Healed pieces, photographed in daylight &mdash; every plate one of one. Tap any plate to open it.</p>
+      </header>
+      <div id="workSets"></div>
+      <p class="work__more">The full portfolio lives on <a href="https://www.instagram.com/hintertattoo/" target="_blank" rel="noopener">@hintertattoo</a> &mdash; 1,200 pieces and counting.</p>
+    </section>
+
+    <!-- ===== Reel break 1 ===== -->
+    <section class="reel" data-reel="0">
+      <video class="reel__video" muted loop playsinline aria-hidden="true">
+        <source src="assets/video/reel-01.mp4" type="video/mp4" />
+      </video>
+      <div class="reel__inner">
+        <h2 class="reel__title">Single Needle</h2>
+        <p class="reel__body">Fine Line, Surrealism, Whimsical</p>
+      </div>
+    </section>
+
+    <!-- ===== Flash archive (II) ===== -->
+    <section class="flash" id="flash">
+      <header class="section-head">
+        <p class="section-head__num">II</p>
+        <h2 class="section-head__title">The Flash Archive</h2>
+        <p class="section-head__sub">Pre-drawn sheets, ready for skin. Each design is tattooed once, then retired.</p>
+      </header>
+      <div class="flash__grid" id="flashGrid"></div>
+      <div class="flash__actions">
+        <button class="btn" id="flashUnfold">Unfold the full archive &mdash; 51 sheets</button>
+      </div>
+      <p class="flash__claim">Claiming a piece is simple &mdash; note the sheet number and text it to <a href="sms:+14804204319">(480) 420-4319</a> (text only). First come, first kept.</p>
+    </section>
+
+    <!-- ===== Create (IV) ===== -->
+    <section class="create" id="create">
+      <img class="create__bg" src="assets/section-portal.jpg" alt="" aria-hidden="true" />
+      <div class="create__card glass reveal">
+        <p class="kicker">Play with the work</p>
+        <h2 class="create__title">Create &mdash; <em>restyle a photo</em></h2>
+        <p class="create__body">Upload any photo and reimagine it in graphite, dotwork, or liquid chrome &mdash; or mock up a cover-up over an existing tattoo. Free to play with, no account needed.</p>
+        <a class="btn btn--accent" href="https://www.raysgallery.com/#create" target="_blank" rel="noopener">Open the Create tool</a>
+        <p class="create__note">Powered by Google Gemini. Your photo is sent for generation only and isn&rsquo;t stored. Like what you made? Book it as a real tattoo.</p>
+      </div>
+    </section>
+
+    <!-- ===== Reel break 2 ===== -->
+    <section class="reel" data-reel="1">
+      <video class="reel__video" muted loop playsinline aria-hidden="true">
+        <source src="assets/video/reel-02.mp4" type="video/mp4" />
+      </video>
+      <div class="reel__inner">
+        <p class="kicker">Phoenix, Arizona</p>
+        <h2 class="reel__title">Fineline<br />surrealism</h2>
+        <p class="reel__body">Black &amp; grey dreamwork, engraved into skin one session at a time.</p>
+      </div>
+    </section>
+
+    <!-- ===== Artist (III) ===== -->
+    <section class="artist" id="artist">
+      <img class="artist__veil" src="assets/section-desert-veil.jpg" alt="" aria-hidden="true" />
+      <header class="section-head section-head--left">
+        <p class="section-head__num">III</p>
+        <h2 class="section-head__title">Behind the Mask</h2>
+        <p class="section-head__sub">Ray &mdash; the hand inside HINTER TATTOO.</p>
+      </header>
+      <div class="artist__grid">
+        <figure class="artist__portrait reveal">
+          <img src="assets/portrait.jpg" alt="Black and white portrait of Ray, HINTER TATTOO, lit by a single spotlight" />
+          <figcaption class="label">HINTER TATTOO &middot; Phoenix, AZ</figcaption>
+        </figure>
+        <div class="artist__bio">
+          <p class="reveal">I started with the piano, not the needle. Classical training from the age of four &mdash; two decades of it &mdash; and the same patience a long &eacute;tude demands is exactly what now goes into a single-needle line. I grew up in the Bay Area, homeschooled, and art was the quiet room I went to when I needed one. I never really left it.</p>
+          <p class="reveal">There was no shortcut and no mentor. I earned my cosmetic-tattoo certifications in Southern California, spent years on the floor of a walk-in shop in Seattle learning to work fast and clean in front of strangers, and eventually built the private studio I keep now in Phoenix. For a long stretch that meant carrying a portfolio from door to door until one of them opened &mdash; and then, slowly, travelling to clients who wanted the work badly enough to wait for it.</p>
+          <p class="reveal">My work pulls from old engravings, 1920s illustrated novels, and the post-punk records I came up on. What I&rsquo;m after is a tattoo that reads like a fragment of a 17th-century etching that has just begun to melt, weep, or dissolve &mdash; precise, but a little haunted. I would always rather make one strange, quiet thing that is truly yours than something loud that could belong to anyone.</p>
+          <dl class="artist__facts reveal">
+            <div><dt>Specialty</dt><dd>Fineline SurRealism &middot; black &amp; grey</dd></div>
+            <div><dt>Studio</dt><dd>Phoenix, Arizona &mdash; private, appointment only</dd></div>
+            <div><dt>Seen in</dt><dd>Inked Magazine &middot; Gretsch Guitars &middot; VoyageLA</dd></div>
+            <div><dt>Elsewhere</dt><dd>@hintertattoo &middot; @meetusatthealtars</dd></div>
+          </dl>
+          <p class="artist__link reveal">If you want the longer version &mdash; how this all started, the travelling years, the whole winding story &mdash; VoyageLA sat down with me for it. <a href="https://voyagela.com/interview/meet-rachel-catchings-hinter-masken-traveling-artist/" target="_blank" rel="noopener">Read the full interview.</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQ (V) ===== -->
+    <section class="faq" id="faq">
+      <header class="section-head">
+        <p class="section-head__num">V</p>
+        <h2 class="section-head__title">Questions</h2>
+        <p class="section-head__sub">Everything clients ask before the first line.</p>
+      </header>
+      <div class="faq__list" id="faqList"></div>
+    </section>
+
+    <!-- ===== Reel break 3 ===== -->
+    <section class="reel" data-reel="2">
+      <video class="reel__video" muted loop playsinline aria-hidden="true">
+        <source src="assets/video/reel-03.mp4" type="video/mp4" />
+      </video>
+      <div class="reel__inner">
+        <p class="kicker">The studio</p>
+        <h2 class="reel__title">Private,<br />by appointment</h2>
+        <p class="reel__body">A quiet room, a long table, and all the time the piece needs.</p>
+      </div>
+    </section>
+
+    <!-- ===== Book ===== -->
+    <section class="book" id="book">
+      <img class="book__bg" src="assets/section-ink-bloom.jpg" alt="" aria-hidden="true" />
+      <div class="book__inner">
+        <p class="kicker">Bookings open</p>
+        <h2 class="book__title">Let&rsquo;s make <em>something yours.</em></h2>
+        <p class="book__body">Text your idea, placement, size, and references &mdash; custom projects begin with a consultation, and flash is claimed first come, first kept.</p>
+        <a class="book__number" href="sms:+14804204319"><span>Text</span> (480) 420-4319</a>
+        <p class="book__fine">Text only &middot; Phoenix, Arizona &middot; private studio &middot; 18+ with valid ID</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer__cols">
+      <div>
+        <h4 class="label">Booking</h4>
+        <p><a href="sms:+14804204319">Text (480) 420-4319</a><br />text only</p>
+      </div>
+      <div>
+        <h4 class="label">Studio</h4>
+        <p>Phoenix, Arizona<br />Private &middot; by appointment only</p>
+      </div>
+      <div>
+        <h4 class="label">Elsewhere</h4>
+        <p><a href="https://www.instagram.com/hintertattoo/" target="_blank" rel="noopener">@hintertattoo</a><br /><a href="https://www.instagram.com/meetusatthealtars/" target="_blank" rel="noopener">@meetusatthealtars</a></p>
+      </div>
+    </div>
+    <p class="footer__tag"><em>Fineline SurRealism</em></p>
+    <div class="footer__ghost" aria-hidden="true">HINTER TATTOO</div>
+    <p class="footer__copy">&copy; 2026 HINTER TATTOO</p>
+  </footer>
+
+  <!-- ===== Lightbox ===== -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox__close" id="lbClose" aria-label="Close">&times;</button>
+    <button class="lightbox__nav lightbox__nav--prev" id="lbPrev" aria-label="Previous">&#8249;</button>
+    <figure class="lightbox__figure">
+      <img id="lbImg" src="" alt="" />
+      <figcaption id="lbCap"></figcaption>
+    </figure>
+    <button class="lightbox__nav lightbox__nav--next" id="lbNext" aria-label="Next">&#8250;</button>
+  </div>
+
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
